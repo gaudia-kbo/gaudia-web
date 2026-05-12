@@ -17,7 +17,7 @@ GAUDIA는 KBO 프로야구 팬들이 경기 승패·선취점·선수 스탯 등
 - Deploy: Vercel
 
 ## 런칭 목표
-2025년 7월 31일 정식 서비스 오픈 예정
+2026년 7월 31일 정식 서비스 오픈 예정
 
 ## 라이선스
 © 2025 GAUDIA. All rights reserved.
