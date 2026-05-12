@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAUDIA — KBO 예측 플랫폼</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Cormorant+Garamond:wght@600;700&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:       #F7F4EF;
+  --bg2:      #FFFFFF;
+  --bg3:      #F0EDE7;
+  --panel:    #FFFFFF;
+  --border:   #E2DDD6;
+  --border2:  #C8C0B4;
+  --gold:     #B8860B;
+  --gold-bg:  #FDF6E3;
+  --gold-bd:  #E8C96A;
+  --red:      #C0392B;
+  --red-bg:   #FDF0EE;
+  --green:    #1A7A4A;
+  --green-bg: #EDF7F2;
+  --blue:     #1A5FA8;
+  --blue-bg:  #EDF3FB;
+  --text:     #1A1612;
+  --text2:    #5A5248;
+  --text3:    #8A8078;
+  --accent:   #C0460A;
+  --live:     #C0392B;
+  --shadow:   0 2px 12px rgba(0,0,0,.08);
+  --shadow2:  0 4px 24px rgba(0,0,0,.12);
+}
+
+html,body{min-height:100%;background:var(--bg);}
+body{color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:14px;overflow-x:hidden;}
+
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:var(--bg3);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:#fff;
+  border-bottom:2px solid var(--gold-bd);
+  height:56px;display:flex;align-items:center;padding:0 16px;gap:0;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.logo-wrap{display:flex;align-items:baseline;gap:6px;margin-right:20px;}
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;font-weight:700;
+  color:var(--gold);letter-spacing:4px;line-height:1;
+}
+.logo-sub{font-size:11px;color:var(--text3);font-weight:500;}
+.nav-tabs{display:flex;gap:0;}
+.nav-tab{
+  padding:0 14px;height:56px;display:flex;align-items:center;
+  font-size:13px;font-weight:700;color:var(--text2);
+  cursor:pointer;border-bottom:3px solid transparent;
+  transition:all .2s;white-space:nowrap;user-select:none;
+}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.nav-tab:hover:not(.active){color:var(--text);}
+.nav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.pts-pill{
+  background:var(--gold-bg);border:1.5px solid var(--gold-bd);
+  border-radius:20px;padding:5px 14px;
+  font-size:13px;color:var(--gold);font-weight:700;
+  font-family:'DM Mono',monospace;
+}
+.pts-pill span{color:var(--text3);font-weight:500;font-size:11px;margin-left:3px;}
+.nav-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,#1A5FA8,#7B52AB);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:#fff;cursor:pointer;flex-shrink:0;
+}
+
+/* ── LAYOUT ── */
+.app{display:flex;min-height:calc(100vh - 56px);}
+.main{flex:1;overflow-x:hidden;min-width:0;}
+.sidebar{
+  width:264px;flex-shrink:0;
+  border-left:1px solid var(--border);
+  background:#fff;
+}
+@media(max-width:900px){.sidebar{display:none;}}
+
+/* ── MOBILE NAV ── */
+.mobile-nav{
+  display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:#fff;border-top:2px solid var(--gold-bd);
+  padding:6px 0 max(6px,env(safe-area-inset-bottom));
+  box-shadow:0 -2px 12px rgba(0,0,0,.08);
+}
+.mobile-nav-inner{display:flex;}
+.mob-tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 4px;cursor:pointer;user-select:none;
+}
+.mob-icon{font-size:20px;line-height:1;}
+.mob-label{font-size:10px;color:var(--text3);font-weight:700;}
+.mob-tab.active .mob-label{color:var(--gold);}
+@media(max-width:768px){
+  .mobile-nav{display:block;}
+  nav .nav-tabs{display:none;}
+  .app{padding-bottom:68px;}
+}
+
+/* ── PAGES ── */
+.page{display:none;}
+.page.active{display:block;}
+
+/* ── TICKER ── */
+.ticker{
+  background:var(--gold);
+  padding:7px 0;overflow:hidden;white-space:nowrap;
+}
+.ticker-track{
+  display:inline-flex;gap:40px;
+  animation:ticker 40s linear infinite;padding-left:20px;
+}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.tick-item{font-size:12px;color:#fff;font-weight:700;display:inline-flex;align-items:center;gap:8px;}
+.tick-sep{opacity:.5;}
+.tick-up{color:#CCFFDD;font-family:'DM Mono',monospace;}
+.tick-dn{color:#FFCCCC;font-family:'DM Mono',monospace;}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(135deg,#FFFBF2 0%,#FFF8E8 100%);
+  border-bottom:1px solid var(--border);padding:16px;
+}
+.hero-label{
+  font-size:11px;color:var(--text3);font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;
+}
+.game-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;}
+.game-scroll::-webkit-scrollbar{height:0;}
+
+.game-card{
+  flex-shrink:0;min-width:176px;
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:14px;padding:12px 14px;
+  cursor:pointer;transition:all .2s;
+  box-shadow:var(--shadow);
+}
+.game-card:hover{border-color:var(--gold-bd);box-shadow:var(--shadow2);transform:translateY(-1px);}
+.game-card.live-card{border-color:var(--red);background:#FFF8F8;}
+.live-dot{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;color:var(--red);
+  letter-spacing:.5px;margin-bottom:8px;
+}
+.live-dot::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--red);animation:pulse 1.2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+.upcoming-dot{font-size:10px;color:var(--text3);font-weight:700;margin-bottom:8px;letter-spacing:.5px;}
+.matchup{display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.team-col{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.team-badge{
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:900;border:2px solid transparent;
+}
+.team-nm{font-size:10px;color:var(--text2);font-weight:700;}
+.score-big{
+  font-family:'Cormorant Garamond',serif;
+  font-size:30px;font-weight:700;color:var(--text);line-height:1;
+}
+.score-big.lead{color:var(--red);}
+.score-dash{font-size:18px;color:var(--text3);font-weight:700;}
+.vs-txt{font-size:10px;color:var(--text3);font-weight:700;}
+.game-footer{font-size:10px;color:var(--text3);margin-top:8px;text-align:center;font-weight:500;}
+
+/* ── SECTION ── */
+.sec{padding:16px;}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.sec-title{font-size:14px;font-weight:900;color:var(--text);}
+.sec-more{font-size:12px;color:var(--blue);font-weight:700;cursor:pointer;}
+.sec-more:hover{text-decoration:underline;}
+
+/* ── PREDICT CARDS ── */
+.pred-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:480px){.pred-grid{grid-template-columns:1fr;}}
+
+.pred-card{
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:14px;padding:14px;cursor:pointer;
+  transition:all .2s;box-shadow:var(--shadow);
+}
+.pred-card:hover{border-color:var(--gold-bd);box-shadow:var(--shadow2);transform:translateY(-1px);}
+.pred-card.feat{
+  grid-column:span 2;
+  background:linear-gradient(135deg,#FFFBF2,#FFF5D6);
+  border-color:var(--gold-bd);
+}
+@media(max-width:480px){.pred-card.feat{grid-column:span 1;}}
+
+.pred-cat{
+  font-size:10px;color:var(--accent);font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;
+}
+.pred-q{font-size:13px;font-weight:700;color:var(--text);line-height:1.45;margin-bottom:10px;}
+.pred-teams{display:flex;gap:6px;align-items:center;margin-bottom:10px;}
+.t-pill{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:20px;padding:3px 9px;
+  font-size:11px;font-weight:700;color:var(--text2);
+  display:flex;align-items:center;gap:4px;
+}
+.pred-bar-labels{
+  display:flex;justify-content:space-between;
+  font-size:12px;font-family:'DM Mono',monospace;font-weight:500;
+  margin-bottom:6px;
+}
+.lbl-y{color:var(--green);}
+.lbl-n{color:var(--red);}
+.bar-track{
+  height:8px;background:var(--bg3);
+  border-radius:4px;overflow:hidden;display:flex;margin-bottom:8px;
+}
+.bar-y{background:var(--green);transition:width .8s ease;}
+.bar-n{background:var(--red);transition:width .8s ease;}
+.pred-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);font-weight:500;}
+.bet-row{display:flex;gap:8px;margin-top:10px;}
+.bty{
+  flex:1;padding:9px 4px;
+  background:var(--green-bg);border:1.5px solid var(--green);
+  border-radius:8px;color:var(--green);
+  font-size:12px;font-weight:700;cursor:pointer;
+  transition:all .2s;font-family:'Noto Sans KR',sans-serif;
+}
+.bty:hover{background:#D4F0E2;}
+.bno{
+  flex:1;padding:9px 4px;
+  background:var(--red-bg);border:1.5px solid var(--red);
+  border-radius:8px;color:var(--red);
+  font-size:12px;font-weight:700;cursor:pointer;
+  transition:all .2s;font-family:'Noto Sans KR',sans-serif;
+}
+.bno:hover{background:#FAD9D5;}
+
+/* ── LIVE BADGE ── */
+.live-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--red-bg);border:1.5px solid var(--red);
+  border-radius:20px;padding:3px 10px;
+  font-size:10px;color:var(--red);font-weight:700;letter-spacing:.5px;
+}
+.live-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--red);animation:pulse 1.2s infinite;display:block;}
+
+/* ── SIDEBAR ── */
+.sb-sec{padding:14px 16px;border-bottom:1px solid var(--border);}
+.sb-title{
+  font-size:10px;font-weight:700;color:var(--text3);
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;
+}
+.stat-row{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;border-bottom:1px solid var(--bg3);
+}
+.stat-row:last-child{border-bottom:none;}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;
+  color:var(--text3);width:26px;text-align:center;flex-shrink:0;
+}
+.stat-info{flex:1;}
+.stat-name{font-size:13px;font-weight:700;color:var(--text);}
+.stat-pos{font-size:10px;color:var(--text3);font-weight:500;margin-top:1px;}
+.stat-val-wrap{text-align:right;}
+.stat-val{font-size:15px;font-weight:700;color:var(--gold);font-family:'DM Mono',monospace;}
+.stat-lbl{font-size:9px;color:var(--text3);font-weight:700;}
+.hot{width:20px;height:20px;border-radius:50%;background:#FFF0E8;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.my-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.my-box{background:var(--bg3);border-radius:10px;padding:10px;text-align:center;}
+.my-val{font-size:20px;font-weight:900;font-family:'DM Mono',monospace;}
+.my-lbl{font-size:10px;color:var(--text3);font-weight:700;margin-top:2px;}
+
+/* ── TOPIC DETAIL ── */
+.topic-hero{
+  background:linear-gradient(135deg,#FFFBF2,#FFF5D6);
+  padding:20px 16px;border-bottom:1px solid var(--border);
+}
+.breadcrumb{font-size:12px;color:var(--text3);font-weight:700;margin-bottom:10px;cursor:pointer;}
+.breadcrumb:hover{color:var(--blue);}
+.topic-title{font-size:18px;font-weight:900;color:var(--text);line-height:1.35;margin-bottom:12px;}
+.topic-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.m-chip{
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:20px;padding:4px 11px;
+  font-size:11px;color:var(--text2);font-weight:700;
+}
+.m-chip.hot{border-color:var(--accent);color:var(--accent);}
+
+.big-bar-wrap{padding:16px;}
+.big-bar-inner{
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:14px;padding:20px;box-shadow:var(--shadow);
+}
+.big-bar-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;}
+.big-pct{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;line-height:1;}
+.big-pct.yes{color:var(--green);}
+.big-pct.no{color:var(--red);}
+.big-pct-label{font-size:11px;color:var(--text3);font-weight:700;margin-bottom:4px;}
+.big-track{height:16px;background:var(--bg3);border-radius:8px;overflow:hidden;display:flex;margin-bottom:10px;}
+.big-y{background:var(--green);transition:width .8s;}
+.big-n{background:var(--red);transition:width .8s;}
+.big-sub{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);font-weight:700;}
+
+.chart-wrap{padding:0 16px 16px;}
+.chart-inner{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);}
+.chart-ttl{font-size:12px;color:var(--text2);font-weight:700;letter-spacing:.5px;margin-bottom:12px;}
+.legend{display:flex;gap:16px;font-size:11px;color:var(--text3);font-weight:700;margin-top:8px;}
+
+.bet-wrap{padding:0 16px 16px;}
+.bet-inner{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);}
+.bet-ttl{font-size:14px;font-weight:900;color:var(--text);margin-bottom:5px;}
+.bet-sub{font-size:12px;color:var(--text2);font-weight:500;margin-bottom:14px;line-height:1.6;}
+.pt-btns{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.pt-btn{
+  padding:7px 14px;background:var(--bg3);border:1.5px solid var(--border);
+  border-radius:8px;color:var(--text2);font-size:12px;font-weight:700;
+  cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;
+}
+.pt-btn.sel,.pt-btn:hover{background:var(--gold-bg);border-color:var(--gold-bd);color:var(--gold);}
+.pt-input{
+  width:100%;background:var(--bg3);border:1.5px solid var(--border);
+  border-radius:8px;padding:10px 14px;color:var(--text);
+  font-size:15px;font-family:'DM Mono',monospace;font-weight:500;
+  outline:none;transition:border-color .2s;margin-bottom:8px;
+}
+.pt-input:focus{border-color:var(--gold-bd);background:#fff;}
+.exp-ret{font-size:12px;color:var(--text3);font-weight:700;text-align:right;margin-bottom:14px;}
+.exp-ret span{color:var(--gold);}
+.big-bets{display:flex;gap:10px;}
+.bb-yes{
+  flex:1;padding:14px;
+  background:var(--green);border:none;border-radius:10px;
+  color:#fff;font-size:14px;font-weight:900;cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;transition:opacity .2s;
+}
+.bb-yes:hover{opacity:.85;}
+.bb-no{
+  flex:1;padding:14px;
+  background:var(--red);border:none;border-radius:10px;
+  color:#fff;font-size:14px;font-weight:900;cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;transition:opacity .2s;
+}
+.bb-no:hover{opacity:.85;}
+.disclaim{font-size:11px;color:var(--text3);font-weight:500;text-align:center;margin-top:12px;line-height:1.6;}
+
+/* ── TOPIC SIDEBAR ── */
+.h2h-row{display:flex;justify-content:space-between;font-size:11px;padding:7px 0;border-bottom:1px solid var(--bg3);}
+.h2h-row:last-child{border-bottom:none;}
+.h2h-date{color:var(--text2);font-weight:700;}
+.h2h-res.win{color:var(--green);font-weight:700;}
+.h2h-res.loss{color:var(--red);font-weight:700;}
+.h2h-venue{color:var(--text3);font-weight:500;}
+.h2h-summary{background:var(--green-bg);border:1px solid #A8DFC0;border-radius:8px;padding:8px 12px;margin-top:10px;font-size:12px;color:var(--green);font-weight:700;}
+.pitcher-row{display:flex;gap:10px;margin-top:4px;}
+.pitcher-box{flex:1;background:var(--bg3);border-radius:10px;padding:10px;text-align:center;}
+.p-team{font-size:10px;color:var(--text3);font-weight:700;margin-bottom:3px;}
+.p-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.p-era{font-size:24px;font-weight:900;font-family:'DM Mono',monospace;margin:4px 0;}
+.p-lbl{font-size:9px;color:var(--text3);font-weight:700;}
+.rel-item{background:var(--bg3);border-radius:10px;padding:11px;cursor:pointer;margin-bottom:6px;transition:background .2s;border:1px solid transparent;}
+.rel-item:last-child{margin-bottom:0;}
+.rel-item:hover{background:#fff;border-color:var(--border);}
+.rel-cat{font-size:9px;color:var(--accent);font-weight:700;margin-bottom:3px;letter-spacing:.5px;text-transform:uppercase;}
+.rel-q{font-size:12px;font-weight:700;color:var(--text);}
+.rel-stat{font-size:11px;color:var(--green);font-weight:700;margin-top:4px;font-family:'DM Mono',monospace;}
+
+/* ── LEADERBOARD ── */
+.tab-bar{
+  display:flex;border-bottom:2px solid var(--border);
+  background:#fff;position:sticky;top:56px;z-index:10;
+}
+.t-tab{
+  flex:1;padding:12px 6px;text-align:center;
+  font-size:12px;font-weight:700;color:var(--text3);
+  cursor:pointer;border-bottom:3px solid transparent;
+  transition:all .2s;user-select:none;margin-bottom:-2px;
+}
+.t-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.t-tab:hover:not(.active){color:var(--text);}
+
+.my-rank-bar{padding:14px 16px;background:var(--gold-bg);border-bottom:1px solid var(--gold-bd);}
+.my-rank-lbl{font-size:10px;color:var(--text3);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;}
+.my-rank-row{display:flex;align-items:center;gap:14px;}
+.my-rank-num{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--gold);line-height:1;}
+.my-rank-info{flex:1;}
+.my-rank-name{font-size:14px;font-weight:900;color:var(--text);}
+.rank-prog{height:5px;background:var(--border);border-radius:3px;margin-top:6px;overflow:hidden;}
+.rank-fill{height:100%;background:var(--green);border-radius:3px;}
+.my-rank-sub{font-size:11px;color:var(--text2);font-weight:700;margin-top:4px;font-family:'DM Mono',monospace;}
+.my-rank-next{text-align:right;font-size:11px;color:var(--text3);font-weight:700;line-height:1.8;}
+
+.lb-row{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--bg3);gap:12px;cursor:pointer;transition:background .2s;}
+.lb-row:hover{background:var(--bg3);}
+.lb-row.me{background:var(--gold-bg);border-bottom-color:var(--gold-bd);}
+.lb-rank{width:28px;font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--text3);text-align:center;flex-shrink:0;}
+.lb-rank.r1{color:#B8860B;}
+.lb-rank.r2{color:#707070;}
+.lb-rank.r3{color:#8B5C20;}
+.lb-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
+.lb-info{flex:1;}
+.lb-name{font-size:13px;font-weight:700;color:var(--text);}
+.lb-badges{display:flex;gap:4px;margin-top:3px;flex-wrap:wrap;}
+.bdg{font-size:9px;padding:2px 7px;border-radius:10px;font-weight:700;}
+.bdg-fire{background:#FFF0E8;color:var(--accent);}
+.bdg-star{background:var(--gold-bg);color:var(--gold);}
+.bdg-new{background:var(--blue-bg);color:var(--blue);}
+.lb-sub{font-size:10px;color:var(--text3);font-weight:500;margin-top:2px;}
+.lb-stat{text-align:right;flex-shrink:0;}
+.lb-acc{font-size:16px;font-weight:700;color:var(--green);font-family:'DM Mono',monospace;}
+.lb-pts{font-size:10px;color:var(--text3);font-weight:700;font-family:'DM Mono',monospace;}
+.prize-box{background:var(--gold-bg);border:1.5px solid var(--gold-bd);margin:14px 16px;border-radius:12px;padding:14px;}
+.prize-ttl{font-size:12px;color:var(--gold);font-weight:700;margin-bottom:4px;}
+.prize-desc{font-size:13px;color:var(--text2);font-weight:500;}
+.team-lb-row{display:flex;align-items:center;gap:10px;padding:9px 10px;background:var(--bg3);border-radius:10px;margin-bottom:6px;}
+.team-lb-row:last-child{margin-bottom:0;}
+.mini-logo{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;flex-shrink:0;}
+.team-lb-name{flex:1;font-size:12px;font-weight:700;color:var(--text);}
+.team-lb-acc{font-size:12px;color:var(--green);font-weight:700;font-family:'DM Mono',monospace;}
+.rising-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;padding:7px 0;border-bottom:1px solid var(--bg3);color:var(--text);}
+.rising-row:last-child{border-bottom:none;}
+.delta{color:var(--green);font-family:'DM Mono',monospace;}
+
+/* ── COMMUNITY ── */
+.comm-input-sec{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg3);}
+.comm-ta{
+  width:100%;background:#fff;border:1.5px solid var(--border);
+  border-radius:10px;padding:12px 14px;color:var(--text);
+  font-size:13px;font-family:'Noto Sans KR',sans-serif;font-weight:500;
+  resize:none;outline:none;transition:border-color .2s;line-height:1.6;
+}
+.comm-ta:focus{border-color:var(--blue);}
+.comm-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.comm-tags{display:flex;gap:6px;}
+.post-btn{
+  background:var(--blue);border:none;border-radius:8px;
+  padding:9px 18px;color:#fff;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:opacity .2s;
+}
+.post-btn:hover{opacity:.85;}
+.post{padding:14px 16px;border-bottom:1px solid var(--bg3);background:#fff;}
+.post:hover{background:#FAFAF8;}
+.post-hd{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.p-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.p-user{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;}
+.p-time{font-size:11px;color:var(--text3);font-weight:500;margin-left:auto;}
+.p-text{font-size:13px;line-height:1.7;color:var(--text);}
+.p-actions{display:flex;gap:14px;margin-top:10px;}
+.p-act{font-size:12px;color:var(--text3);font-weight:700;cursor:pointer;display:flex;align-items:center;gap:3px;transition:color .2s;}
+.p-act:hover{color:var(--blue);}
+.pop-tags{display:flex;flex-wrap:wrap;gap:6px;}
+
+/* ── TOAST ── */
+#toast{
+  display:none;position:fixed;
+  bottom:max(80px,calc(68px + env(safe-area-inset-bottom)));
+  left:50%;transform:translateX(-50%);
+  background:var(--text);border-radius:12px;
+  padding:12px 24px;font-size:13px;color:#fff;font-weight:700;
+  z-index:9999;white-space:nowrap;
+  box-shadow:0 8px 32px rgba(0,0,0,.25);
+  transition:opacity .3s;
+}
+@media(min-width:769px){#toast{bottom:28px;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo-wrap">
+    <div class="logo">GAUDIA</div>
+    <div class="logo-sub">KBO 예측</div>
+  </div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showPage('home')">홈</div>
+    <div class="nav-tab" onclick="showPage('topic')">토픽</div>
+    <div class="nav-tab" onclick="showPage('leaderboard')">리더보드</div>
+    <div class="nav-tab" onclick="showPage('community')">커뮤니티</div>
+  </div>
+  <div class="nav-right">
+    <div class="pts-pill" id="pts">1,240<span>PT</span></div>
+    <div class="nav-avatar">원J</div>
+  </div>
+</nav>
+
+<!-- ════ HOME ════ -->
+<div class="page active" id="page-home">
+  <div class="app">
+    <div class="main">
+
+      <div class="ticker">
+        <div class="ticker-track">
+          <span class="tick-item">LG vs KT <span class="tick-sep">|</span><span class="tick-up">LG 67%</span></span>
+          <span class="tick-item">삼성 선취점 <span class="tick-sep">|</span><span class="tick-up">O 71%</span></span>
+          <span class="tick-item">SSG vs 두산 <span class="tick-sep">|</span><span class="tick-dn">두산 55%</span></span>
+          <span class="tick-item">문보경 홈런 <span class="tick-sep">|</span><span class="tick-up">O 38%</span></span>
+          <span class="tick-item">KIA vs NC <span class="tick-sep">|</span><span class="tick-up">KIA 67%</span></span>
+          <span class="tick-item">롯데 10안타 <span class="tick-sep">|</span><span class="tick-dn">X 56%</span></span>
+          <span class="tick-item">LG vs KT <span class="tick-sep">|</span><span class="tick-up">LG 67%</span></span>
+          <span class="tick-item">삼성 선취점 <span class="tick-sep">|</span><span class="tick-up">O 71%</span></span>
+          <span class="tick-item">SSG vs 두산 <span class="tick-sep">|</span><span class="tick-dn">두산 55%</span></span>
+          <span class="tick-item">문보경 홈런 <span class="tick-sep">|</span><span class="tick-up">O 38%</span></span>
+          <span class="tick-item">KIA vs NC <span class="tick-sep">|</span><span class="tick-up">KIA 67%</span></span>
+          <span class="tick-item">롯데 10안타 <span class="tick-sep">|</span><span class="tick-dn">X 56%</span></span>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="hero-label">오늘의 경기 · 2025.05.05</div>
+        <div class="game-scroll">
+          <div class="game-card live-card" onclick="showPage('topic')">
+            <div class="live-dot">LIVE · 5회초</div>
+            <div class="matchup">
+              <div class="team-col"><div class="team-badge" style="background:#FFE8E8;color:#C8102E;border-color:#C8102E;">LG</div><div class="team-nm">LG</div></div>
+              <div class="score-big lead">3</div><div class="vs-txt">vs</div><div class="score-big">1</div>
+              <div class="team-col"><div class="team-badge" style="background:#FFE8E8;color:#E31837;border-color:#E31837;">KT</div><div class="team-nm">KT</div></div>
+            </div>
+            <div class="game-footer">잠실 · 2,341명 예측중</div>
+          </div>
+          <div class="game-card" onclick="showPage('topic')">
+            <div class="upcoming-dot">18:30 예정</div>
+            <div class="matchup">
+              <div class="team-col"><div class="team-badge" style="background:#E8EFF8;color:#074CA1;border-color:#074CA1;">삼성</div><div class="team-nm">삼성</div></div>
+              <div class="score-dash">—</div><div class="vs-txt">vs</div><div class="score-dash">—</div>
+              <div class="team-col"><div class="team-badge" style="background:#FFF0E8;color:#FF6600;border-color:#FF6600;">한화</div><div class="team-nm">한화</div></div>
+            </div>
+            <div class="game-footer">대구 · 예측 참여중</div>
+          </div>
+          <div class="game-card" onclick="showPage('topic')">
+            <div class="upcoming-dot">18:30 예정</div>
+            <div class="matchup">
+              <div class="team-col"><div class="team-badge" style="background:#FFE8E8;color:#CF152D;border-color:#CF152D;">KIA</div><div class="team-nm">KIA</div></div>
+              <div class="score-dash">—</div><div class="vs-txt">vs</div><div class="score-dash">—</div>
+              <div class="team-col"><div class="team-badge" style="background:#ECEEF8;color:#333399;border-color:#333399;">NC</div><div class="team-nm">NC</div></div>
+            </div>
+            <div class="game-footer">광주 · 예측 참여중</div>
+          </div>
+          <div class="game-card" onclick="showPage('topic')">
+            <div class="upcoming-dot">18:30 예정</div>
+            <div class="matchup">
+              <div class="team-col"><div class="team-badge" style="background:#E8E8F0;color:#000066;border-color:#000066;">두산</div><div class="team-nm">두산</div></div>
+              <div class="score-dash">—</div><div class="vs-txt">vs</div><div class="score-dash">—</div>
+              <div class="team-col"><div class="team-badge" style="background:#FFE8E8;color:#CE1212;border-color:#CE1212;">SSG</div><div class="team-nm">SSG</div></div>
+            </div>
+            <div class="game-footer">잠실2 · 예측 참여중</div>
+          </div>
+          <div class="game-card" onclick="showPage('topic')">
+            <div class="upcoming-dot">18:30 예정</div>
+            <div class="matchup">
+              <div class="team-col"><div class="team-badge" style="background:#E8EEF5;color:#041E42;border-color:#041E42;">롯데</div><div class="team-nm">롯데</div></div>
+              <div class="score-dash">—</div><div class="vs-txt">vs</div><div class="score-dash">—</div>
+              <div class="team-col"><div class="team-badge" style="background:#F5EEF0;color:#570514;border-color:#570514;">키움</div><div class="team-nm">키움</div></div>
+            </div>
+            <div class="game-footer">사직 · 예측 참여중</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head">
+          <div class="sec-title">🔥 지금 핫한 예측</div>
+          <div class="sec-more" onclick="showPage('topic')">전체보기 →</div>
+        </div>
+        <div class="pred-grid">
+
+          <div class="pred-card feat" onclick="showPage('topic')">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+              <div class="pred-cat">LIVE · 5회초</div>
+              <div class="live-badge">LIVE</div>
+            </div>
+            <div class="pred-q">LG 트윈스가 오늘 KT 위즈를 꺾고 승리할까?</div>
+            <div class="pred-teams">
+              <div class="t-pill"><span style="color:#C8102E;">●</span>LG</div>
+              <span style="color:var(--text3);font-size:11px;font-weight:700;">vs</span>
+              <div class="t-pill"><span style="color:#E31837;">●</span>KT</div>
+            </div>
+            <div class="pred-bar-labels"><span class="lbl-y">LG 67%</span><span class="lbl-n">KT 33%</span></div>
+            <div class="bar-track"><div class="bar-y" style="width:67%"></div><div class="bar-n" style="width:33%"></div></div>
+            <div class="pred-meta"><span>👥 2,341명 참여</span><span>경기 종료 시 마감</span></div>
+            <div class="bet-row">
+              <button class="bty" onclick="doBet(event,'LG 승')">✔ LG 승</button>
+              <button class="bno" onclick="doBet(event,'KT 승')">✔ KT 승</button>
+            </div>
+          </div>
+
+          <div class="pred-card" onclick="showPage('topic')">
+            <div class="pred-cat">승/패</div>
+            <div class="pred-q">삼성이 오늘 한화를 꺾을까?</div>
+            <div class="pred-bar-labels"><span class="lbl-y">삼성 54%</span><span class="lbl-n">한화 46%</span></div>
+            <div class="bar-track"><div class="bar-y" style="width:54%"></div><div class="bar-n" style="width:46%"></div></div>
+            <div class="pred-meta"><span>👥 891명</span><span>18:30 마감</span></div>
+            <div class="bet-row"><button class="bty" onclick="doBet(event,'삼성 승')">삼성</button><button class="bno" onclick="doBet(event,'한화 승')">한화</button></div>
+          </div>
+
+          <div class="pred-card" onclick="showPage('topic')">
+            <div class="pred-cat">선취점</div>
+            <div class="pred-q">KIA가 NC보다 먼저 득점할까?</div>
+            <div class="pred-bar-labels"><span class="lbl-y">O 71%</span><span class="lbl-n">X 29%</span></div>
+            <div class="bar-track"><div class="bar-y" style="width:71%"></div><div class="bar-n" style="width:29%"></div></div>
+            <div class="pred-meta"><span>👥 563명</span><span>18:30 마감</span></div>
+            <div class="bet-row"><button class="bty" onclick="doBet(event,'선취점 O')">O</button><button class="bno" onclick="doBet(event,'선취점 X')">X</button></div>
+          </div>
+
+          <div class="pred-card" onclick="showPage('topic')">
+            <div class="pred-cat">개인 스탯</div>
+            <div class="pred-q">문보경, 오늘 홈런을 칠까?</div>
+            <div class="pred-bar-labels"><span class="lbl-y">O 38%</span><span class="lbl-n">X 62%</span></div>
+            <div class="bar-track"><div class="bar-y" style="width:38%"></div><div class="bar-n" style="width:62%"></div></div>
+            <div class="pred-meta"><span>👥 1,204명</span><span>18:30 마감</span></div>
+            <div class="bet-row"><button class="bty" onclick="doBet(event,'홈런 O')">O</button><button class="bno" onclick="doBet(event,'홈런 X')">X</button></div>
+          </div>
+
+          <div class="pred-card" onclick="showPage('topic')">
+            <div class="pred-cat">팀 스탯</div>
+            <div class="pred-q">두산, 오늘 SSG 상대 10안타 이상?</div>
+            <div class="pred-bar-labels"><span class="lbl-y">O 44%</span><span class="lbl-n">X 56%</span></div>
+            <div class="bar-track"><div class="bar-y" style="width:44%"></div><div class="bar-n" style="width:56%"></div></div>
+            <div class="pred-meta"><span>👥 432명</span><span>18:30 마감</span></div>
+            <div class="bet-row"><button class="bty" onclick="doBet(event,'10안타 O')">O</button><button class="bno" onclick="doBet(event,'10안타 X')">X</button></div>
+          </div>
+
+          <div class="pred-card" onclick="showPage('topic')">
+            <div class="pred-cat">연장전</div>
+            <div class="pred-q">롯데 vs 키움, 오늘 연장전 갈까?</div>
+            <div class="pred-bar-labels"><span class="lbl-y">O 18%</span><span class="lbl-n">X 82%</span></div>
+            <div class="bar-track"><div class="bar-y" style="width:18%"></div><div class="bar-n" style="width:82%"></div></div>
+            <div class="pred-meta"><span>👥 287명</span><span>18:30 마감</span></div>
+            <div class="bet-row"><button class="bty" onclick="doBet(event,'연장 O')">O</button><button class="bno" onclick="doBet(event,'연장 X')">X</button></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="sb-sec">
+        <div class="sb-title">오늘의 타율 TOP</div>
+        <div class="stat-row"><div class="stat-num">47</div><div class="stat-info"><div class="stat-name">문보경</div><div class="stat-pos">LG · 3루수</div></div><div class="hot">🔥</div><div class="stat-val-wrap"><div class="stat-val">.380</div><div class="stat-lbl">타율</div></div></div>
+        <div class="stat-row"><div class="stat-num">53</div><div class="stat-info"><div class="stat-name">박동원</div><div class="stat-pos">KT · 포수</div></div><div class="stat-val-wrap"><div class="stat-val">.361</div><div class="stat-lbl">타율</div></div></div>
+        <div class="stat-row"><div class="stat-num">24</div><div class="stat-info"><div class="stat-name">나성범</div><div class="stat-pos">KIA · 외야수</div></div><div class="stat-val-wrap"><div class="stat-val">.344</div><div class="stat-lbl">타율</div></div></div>
+      </div>
+      <div class="sb-sec">
+        <div class="sb-title">홈런 랭킹</div>
+        <div class="stat-row"><div class="stat-num">99</div><div class="stat-info"><div class="stat-name">이대호</div><div class="stat-pos">두산 · 1루수</div></div><div class="hot">🔥</div><div class="stat-val-wrap"><div class="stat-val">12</div><div class="stat-lbl">HR</div></div></div>
+        <div class="stat-row"><div class="stat-num">47</div><div class="stat-info"><div class="stat-name">문보경</div><div class="stat-pos">LG · 3루수</div></div><div class="stat-val-wrap"><div class="stat-val">11</div><div class="stat-lbl">HR</div></div></div>
+        <div class="stat-row"><div class="stat-num">36</div><div class="stat-info"><div class="stat-name">피렐라</div><div class="stat-pos">삼성 · 외야수</div></div><div class="stat-val-wrap"><div class="stat-val">10</div><div class="stat-lbl">HR</div></div></div>
+      </div>
+      <div class="sb-sec">
+        <div class="sb-title">나의 현황</div>
+        <div class="my-grid">
+          <div class="my-box"><div class="my-val" style="color:var(--green);">73%</div><div class="my-lbl">정확도</div></div>
+          <div class="my-box"><div class="my-val" style="color:var(--gold);">1,240</div><div class="my-lbl">포인트</div></div>
+          <div class="my-box"><div class="my-val" style="color:var(--blue);">28</div><div class="my-lbl">참여 횟수</div></div>
+          <div class="my-box"><div class="my-val" style="color:var(--accent);">#14</div><div class="my-lbl">주간 순위</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ TOPIC ════ -->
+<div class="page" id="page-topic">
+  <div class="app">
+    <div class="main">
+      <div class="topic-hero">
+        <div class="breadcrumb" onclick="showPage('home')">← 홈 › 승/패 예측 › KBO</div>
+        <div class="topic-title">LG 트윈스가 오늘 KT 위즈를 꺾고 승리할까?</div>
+        <div class="topic-meta">
+          <div class="live-badge">LIVE</div>
+          <div class="m-chip">⚡ 2,341명</div>
+          <div class="m-chip hot">🔥 급등중</div>
+          <div class="m-chip">경기 종료 시 마감</div>
+        </div>
+      </div>
+      <div class="big-bar-wrap">
+        <div class="big-bar-inner">
+          <div class="big-bar-head">
+            <div><div class="big-pct-label">LG 승리 예측</div><div class="big-pct yes" id="yes-pct">67%</div></div>
+            <div style="text-align:right;"><div class="big-pct-label">KT 승리 예측</div><div class="big-pct no" id="no-pct">33%</div></div>
+          </div>
+          <div class="big-track"><div class="big-y" id="big-y" style="width:67%"></div><div class="big-n" id="big-n" style="width:33%"></div></div>
+          <div class="big-sub"><span>참여 1,571명</span><span style="color:var(--green);font-weight:700;">● 실시간 업데이트 중</span><span>참여 770명</span></div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-inner">
+          <div class="chart-ttl">예측 비율 변화 (최근 24시간)</div>
+          <svg width="100%" viewBox="0 0 400 80" style="display:block;">
+            <defs><linearGradient id="grd" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1A7A4A" stop-opacity=".2"/><stop offset="100%" stop-color="#1A7A4A" stop-opacity="0"/></linearGradient></defs>
+            <path d="M0,56 C30,52 60,48 90,45 S140,40 170,37 S210,34 240,32 S280,28 310,25 S360,21 390,19 L400,18" fill="none" stroke="#1A7A4A" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M0,56 C30,52 60,48 90,45 S140,40 170,37 S210,34 240,32 S280,28 310,25 S360,21 390,19 L400,18 L400,80 L0,80Z" fill="url(#grd)"/>
+            <path d="M0,56 C30,60 60,63 90,65 S140,67 170,68 S210,69 240,68 S280,71 310,73 S360,76 390,77 L400,78" fill="none" stroke="#C0392B" stroke-width="1.5" stroke-dasharray="5,4" stroke-linecap="round"/>
+          </svg>
+          <div class="legend"><span style="color:var(--green);">— LG 승 비율</span><span style="color:var(--red);">- - KT 승 비율</span></div>
+        </div>
+      </div>
+      <div class="bet-wrap">
+        <div class="bet-inner">
+          <div class="bet-ttl">예측 참여하기</div>
+          <div class="bet-sub">포인트를 선택하고 예측하세요. 포인트는 매일 무료로 지급됩니다.</div>
+          <div class="pt-btns">
+            <button class="pt-btn sel" onclick="selPt(this,50)">50 PT</button>
+            <button class="pt-btn" onclick="selPt(this,100)">100 PT</button>
+            <button class="pt-btn" onclick="selPt(this,200)">200 PT</button>
+            <button class="pt-btn" onclick="selPt(this,500)">500 PT</button>
+          </div>
+          <input class="pt-input" type="number" id="pt-amt" value="50" min="10" oninput="updRet()"/>
+          <div class="exp-ret">예상 획득 포인트: <span id="exp-r">75 PT</span></div>
+          <div class="big-bets">
+            <button class="bb-yes" onclick="doBet(event,'LG 승')">✔ LG 승리 예측</button>
+            <button class="bb-no" onclick="doBet(event,'KT 승')">✔ KT 승리 예측</button>
+          </div>
+          <div class="disclaim">포인트는 현금 전환이 불가하며, 서비스 내 활동 보상으로만 사용됩니다.</div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar">
+      <div class="sb-sec">
+        <div class="sb-title">LG vs KT 최근 5경기</div>
+        <div class="h2h-row"><span class="h2h-date">05.01</span><span class="h2h-res win">LG 7:3 KT</span><span class="h2h-venue">잠실</span></div>
+        <div class="h2h-row"><span class="h2h-date">04.28</span><span class="h2h-res loss">KT 5:4 LG</span><span class="h2h-venue">수원</span></div>
+        <div class="h2h-row"><span class="h2h-date">04.20</span><span class="h2h-res win">LG 8:2 KT</span><span class="h2h-venue">잠실</span></div>
+        <div class="h2h-row"><span class="h2h-date">04.15</span><span class="h2h-res win">LG 3:1 KT</span><span class="h2h-venue">수원</span></div>
+        <div class="h2h-row"><span class="h2h-date">04.10</span><span class="h2h-res loss">KT 6:4 LG</span><span class="h2h-venue">잠실</span></div>
+        <div class="h2h-summary">LG 최근 5경기 상대전적 3승 2패</div>
+      </div>
+      <div class="sb-sec">
+        <div class="sb-title">오늘 선발 투수</div>
+        <div class="pitcher-row">
+          <div class="pitcher-box"><div class="p-team">LG</div><div class="p-name">임찬규</div><div class="p-era" style="color:var(--green);">3.21</div><div class="p-lbl">ERA · 시즌</div></div>
+          <div class="pitcher-box"><div class="p-team">KT</div><div class="p-name">소형준</div><div class="p-era" style="color:var(--red);">4.05</div><div class="p-lbl">ERA · 시즌</div></div>
+        </div>
+      </div>
+      <div class="sb-sec">
+        <div class="sb-title">관련 토픽</div>
+        <div class="rel-item" onclick="showPage('topic')"><div class="rel-cat">선취점</div><div class="rel-q">LG가 선취점을 낼까?</div><div class="rel-stat">O 61% · 987명</div></div>
+        <div class="rel-item" onclick="showPage('topic')"><div class="rel-cat">개인 스탯</div><div class="rel-q">문보경 오늘 2안타 이상?</div><div class="rel-stat">O 55% · 654명</div></div>
+        <div class="rel-item" onclick="showPage('topic')"><div class="rel-cat">팀 스탯</div><div class="rel-q">LG 오늘 5득점 이상?</div><div class="rel-stat">O 48% · 421명</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ LEADERBOARD ════ -->
+<div class="page" id="page-leaderboard">
+  <div class="app">
+    <div class="main">
+      <div class="tab-bar">
+        <div class="t-tab active" onclick="actTab(this)">주간</div>
+        <div class="t-tab" onclick="actTab(this)">월간</div>
+        <div class="t-tab" onclick="actTab(this)">역대</div>
+        <div class="t-tab" onclick="actTab(this)">팀별</div>
+      </div>
+      <div class="my-rank-bar">
+        <div class="my-rank-lbl">내 현황</div>
+        <div class="my-rank-row">
+          <div class="my-rank-num">#14</div>
+          <div class="my-rank-info">
+            <div class="my-rank-name">원재J</div>
+            <div class="rank-prog"><div class="rank-fill" style="width:73%"></div></div>
+            <div class="my-rank-sub">73% · 1,240 PT</div>
+          </div>
+          <div class="my-rank-next">#13까지<br><span style="color:var(--gold);font-weight:700;">+45 PT</span></div>
+        </div>
+      </div>
+      <div class="lb-row"><div class="lb-rank r1">1</div><div class="lb-av" style="background:linear-gradient(135deg,#E8C06A,#C9A44E);color:#fff;">야</div><div class="lb-info"><div class="lb-name">야구신🔮</div><div class="lb-badges"><span class="bdg bdg-fire">🔥 13연속</span><span class="bdg bdg-star">⭐ 예측왕</span></div><div class="lb-sub">52경기 참여</div></div><div class="lb-stat"><div class="lb-acc">91%</div><div class="lb-pts">4,820 PT</div></div></div>
+      <div class="lb-row"><div class="lb-rank r2">2</div><div class="lb-av" style="background:#C0C0C0;color:#fff;">K</div><div class="lb-info"><div class="lb-name">KBO분석가</div><div class="lb-badges"><span class="bdg bdg-fire">🔥 7연속</span></div><div class="lb-sub">47경기 참여</div></div><div class="lb-stat"><div class="lb-acc">87%</div><div class="lb-pts">3,990 PT</div></div></div>
+      <div class="lb-row"><div class="lb-rank r3">3</div><div class="lb-av" style="background:#CD7F32;color:#fff;">잠</div><div class="lb-info"><div class="lb-name">잠실의신</div><div class="lb-badges"><span class="bdg bdg-star">⭐ LG팬</span></div><div class="lb-sub">61경기 참여</div></div><div class="lb-stat"><div class="lb-acc">85%</div><div class="lb-pts">3,540 PT</div></div></div>
+      <div class="lb-row"><div class="lb-rank">4</div><div class="lb-av" style="background:#1A5FA8;color:#fff;">프</div><div class="lb-info"><div class="lb-name">프로야구덕후</div><div class="lb-badges"><span class="bdg bdg-new">📈 +12계단</span></div><div class="lb-sub">38경기 참여</div></div><div class="lb-stat"><div class="lb-acc">82%</div><div class="lb-pts">2,780 PT</div></div></div>
+      <div class="lb-row"><div class="lb-rank">5</div><div class="lb-av" style="background:#B8860B;color:#fff;">수</div><div class="lb-info"><div class="lb-name">수원KT팬</div><div class="lb-badges"><span class="bdg bdg-star">⭐ KT팬</span></div><div class="lb-sub">44경기 참여</div></div><div class="lb-stat"><div class="lb-acc">80%</div><div class="lb-pts">2,560 PT</div></div></div>
+      <div class="lb-row"><div class="lb-rank">6</div><div class="lb-av" style="background:#C0460A;color:#fff;">삼</div><div class="lb-info"><div class="lb-name">삼성라이온즈빠</div><div class="lb-badges"><span class="bdg bdg-fire">🔥 4연속</span></div><div class="lb-sub">29경기 참여</div></div><div class="lb-stat"><div class="lb-acc">78%</div><div class="lb-pts">2,100 PT</div></div></div>
+      <div class="lb-row me"><div class="lb-rank" style="color:var(--gold);">14</div><div class="lb-av" style="background:linear-gradient(135deg,#1A5FA8,#7B52AB);color:#fff;">원</div><div class="lb-info"><div class="lb-name">원재J <span style="font-size:10px;color:var(--gold);">← 나</span></div><div class="lb-badges"><span class="bdg bdg-new">📈 +5계단</span></div><div class="lb-sub">28경기 참여</div></div><div class="lb-stat"><div class="lb-acc">73%</div><div class="lb-pts">1,240 PT</div></div></div>
+      <div class="prize-box"><div class="prize-ttl">🏆 이번 주 1위 특전</div><div class="prize-desc">CGV 팝콘콤보 교환권 + 예측왕 배지 + 다음 주 2배 포인트</div></div>
+    </div>
+    <div class="sidebar">
+      <div class="sb-sec">
+        <div class="sb-title">팀별 예측왕</div>
+        <div class="team-lb-row"><div class="mini-logo" style="background:#C8102E;color:#fff;">LG</div><div class="team-lb-name">잠실의신</div><div class="team-lb-acc">85%</div></div>
+        <div class="team-lb-row"><div class="mini-logo" style="background:#E31837;color:#fff;">KT</div><div class="team-lb-name">수원KT팬</div><div class="team-lb-acc">80%</div></div>
+        <div class="team-lb-row"><div class="mini-logo" style="background:#CF152D;color:#fff;">KIA</div><div class="team-lb-name">광주호랑이</div><div class="team-lb-acc">77%</div></div>
+        <div class="team-lb-row"><div class="mini-logo" style="background:#074CA1;color:#fff;">삼성</div><div class="team-lb-name">대구라이온</div><div class="team-lb-acc">76%</div></div>
+      </div>
+      <div class="sb-sec">
+        <div class="sb-title">주간 급상승</div>
+        <div class="rising-row"><span>⬆ 프로야구덕후</span><span class="delta">+12</span></div>
+        <div class="rising-row"><span>⬆ 원재J</span><span class="delta">+5</span></div>
+        <div class="rising-row"><span>⬆ 야구천재9</span><span class="delta">+3</span></div>
+        <div class="rising-row"><span>⬆ 불펜분석가</span><span class="delta">+2</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ COMMUNITY ════ -->
+<div class="page" id="page-community">
+  <div class="app">
+    <div class="main">
+      <div class="tab-bar">
+        <div class="t-tab active" onclick="actTab(this)">전체</div>
+        <div class="t-tab" onclick="actTab(this)">LG</div>
+        <div class="t-tab" onclick="actTab(this)">KT</div>
+        <div class="t-tab" onclick="actTab(this)">KIA</div>
+        <div class="t-tab" onclick="actTab(this)">삼성</div>
+        <div class="t-tab" onclick="actTab(this)">두산</div>
+      </div>
+      <div class="comm-input-sec">
+        <textarea class="comm-ta" id="comm-ta" rows="3" placeholder="오늘 경기 예측 분석을 공유해보세요..."></textarea>
+        <div class="comm-footer">
+          <div class="comm-tags"><div class="m-chip" style="cursor:pointer;">📊 예측 첨부</div><div class="m-chip" style="cursor:pointer;">#LG #KT</div></div>
+          <button class="post-btn" onclick="doPost()">게시하기</button>
+        </div>
+      </div>
+      <div id="posts">
+        <div class="post"><div class="post-hd"><div class="p-av" style="background:linear-gradient(135deg,#E8C06A,#C9A44E);color:#fff;">야</div><div class="p-user">야구신🔮<span class="bdg bdg-star" style="font-size:9px;">예측왕</span></div><div class="p-time">방금 전</div></div><div class="p-text">임찬규 ERA 3.21이고 소형준 4점대라 LG 유리. 5회 현재 3:1이고 불펜도 OK. <span style="color:var(--gold);font-weight:700;">LG 승 500PT 넣음.</span></div><div class="p-actions"><span class="p-act" onclick="likeP(this)">👍 24</span><span class="p-act">💬 댓글 8</span><span class="p-act">🔗 공유</span></div></div>
+        <div class="post"><div class="post-hd"><div class="p-av" style="background:#C0392B;color:#fff;">K</div><div class="p-user">KBO분석가</div><div class="p-time">5분 전</div></div><div class="p-text">KT 불펜 최근 7경기 방어율 2.8인데 사람들이 너무 모름. 후반 역전 가능. KT 승 역배 노리는 중 🎯</div><div class="p-actions"><span class="p-act" onclick="likeP(this)">👍 12</span><span class="p-act">💬 댓글 5</span><span class="p-act">🔗 공유</span></div></div>
+        <div class="post"><div class="post-hd"><div class="p-av" style="background:#C8102E;color:#fff;">LG</div><div class="p-user">잠실의신</div><div class="p-time">12분 전</div></div><div class="p-text">문보경 오늘 컨디션 최상. 배팅볼 타구속도 장난아님. 홈런 O도 예측했음 😤</div><div class="p-actions"><span class="p-act" onclick="likeP(this)">👍 31</span><span class="p-act">💬 댓글 11</span><span class="p-act">🔗 공유</span></div></div>
+        <div class="post"><div class="post-hd"><div class="p-av" style="background:#1A5FA8;color:#fff;">야</div><div class="p-user">야구통계러</div><div class="p-time">23분 전</div></div><div class="p-text">오늘 잠실 날씨 맑고 바람 없음. 홈런이 많이 나오는 조건. 문보경, 이대호 모두 홈런 O 추천 ⚾</div><div class="p-actions"><span class="p-act" onclick="likeP(this)">👍 18</span><span class="p-act">💬 댓글 3</span><span class="p-act">🔗 공유</span></div></div>
+      </div>
+    </div>
+    <div class="sidebar">
+      <div class="sb-sec"><div class="sb-title">인기 태그</div><div class="pop-tags"><div class="m-chip">#LG</div><div class="m-chip">#문보경</div><div class="m-chip">#선발</div><div class="m-chip">#잠실</div><div class="m-chip">#선취점</div><div class="m-chip">#홈런</div><div class="m-chip">#KT불펜</div></div></div>
+      <div class="sb-sec">
+        <div class="sb-title">오늘 예측 현황</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:700;">
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2);">📊 활성 토픽</span><span style="color:var(--text);">12개</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2);">👥 오늘 참여</span><span style="color:var(--text);">5,832명</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text2);">🔥 최다 참여</span><span style="color:var(--text);">LG vs KT</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Bottom Nav -->
+<div class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <div class="mob-tab active" id="mob-home" onclick="showPage('home')"><div class="mob-icon">⚾</div><div class="mob-label">홈</div></div>
+    <div class="mob-tab" id="mob-topic" onclick="showPage('topic')"><div class="mob-icon">🎯</div><div class="mob-label">토픽</div></div>
+    <div class="mob-tab" id="mob-leaderboard" onclick="showPage('leaderboard')"><div class="mob-icon">🏆</div><div class="mob-label">순위</div></div>
+    <div class="mob-tab" id="mob-community" onclick="showPage('community')"><div class="mob-icon">💬</div><div class="mob-label">커뮤니티</div></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  ['home','topic','leaderboard','community'].forEach((p,i)=>{
+    const t=document.querySelectorAll('.nav-tab')[i];
+    const m=document.getElementById('mob-'+p);
+    if(t)t.classList.toggle('active',p===id);
+    if(m)m.classList.toggle('active',p===id);
+  });
+  window.scrollTo(0,0);
+}
+function actTab(el){
+  el.closest('.tab-bar').querySelectorAll('.t-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.display='block';t.style.opacity='1';
+  clearTimeout(window._tt);
+  window._tt=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.style.display='none',300);},2400);
+}
+function doBet(e,choice){
+  e.stopPropagation();
+  const v=parseInt(document.getElementById('pt-amt')?document.getElementById('pt-amt').value:50)||50;
+  const el=document.getElementById('pts');
+  if(el){const n=parseInt(el.textContent.replace(/\D/g,''))||0;el.innerHTML=Math.max(0,n-v).toLocaleString()+'<span>PT</span>';}
+  toast('✅ '+choice+' 예측 완료! '+v+'PT 사용');
+}
+function selPt(el,v){
+  el.closest('.pt-btns').querySelectorAll('.pt-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('pt-amt').value=v;updRet();
+}
+function updRet(){
+  const v=parseInt(document.getElementById('pt-amt').value)||0;
+  const y=parseInt((document.getElementById('yes-pct')||{}).textContent)||67;
+  document.getElementById('exp-r').textContent=Math.round(v*(100/y)*.95)+' PT';
+}
+function likeP(el){el.textContent='👍 '+(parseInt(el.textContent.replace(/\D/g,''))+1);el.style.color='var(--gold)';}
+function doPost(){
+  const v=document.getElementById('comm-ta').value.trim();
+  if(!v){toast('내용을 입력해주세요');return;}
+  const d=document.createElement('div');d.className='post';
+  d.innerHTML=`<div class="post-hd"><div class="p-av" style="background:linear-gradient(135deg,#1A5FA8,#7B52AB);color:#fff;">원J</div><div class="p-user">원재J</div><div class="p-time">방금 전</div></div><div class="p-text">${v.replace(/</g,'&lt;')}</div><div class="p-actions"><span class="p-act" onclick="likeP(this)">👍 0</span><span class="p-act">💬 0</span><span class="p-act">🔗 공유</span></div>`;
+  document.getElementById('posts').insertBefore(d,document.getElementById('posts').firstChild);
+  document.getElementById('comm-ta').value='';toast('✅ 게시글 등록 완료!');
+}
+setInterval(()=>{
+  const y=document.getElementById('yes-pct'),n=document.getElementById('no-pct'),by=document.getElementById('big-y'),bn=document.getElementById('big-n');
+  if(!y||!by)return;
+  const c=parseInt(y.textContent)||67,ny=Math.min(Math.max(c+(Math.random()>.5?1:-1),55),78),nn=100-ny;
+  y.textContent=ny+'%';n.textContent=nn+'%';by.style.width=ny+'%';bn.style.width=nn+'%';updRet();
+},3000);
+</script>
+</body>
+</html>
