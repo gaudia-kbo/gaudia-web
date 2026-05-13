@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAUDIA — 회원가입</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --cream:       #FAF7F2;
+  --cream2:      #F3EFE8;
+  --cream3:      #EDE8DF;
+  --white:       #FFFFFF;
+  --gold:        #B8860B;
+  --gold2:       #9A7009;
+  --gold-light:  #F5E6B8;
+  --gold-bg:     #FDF8EC;
+  --gold-bd:     #DFC06A;
+  --red:         #B83232;
+  --red-bg:      #FDF0EF;
+  --green:       #2A7A52;
+  --green-bg:    #EDF7F2;
+  --blue:        #2A5FA8;
+  --blue-bg:     #EEF4FC;
+  --text:        #1C1712;
+  --text2:       #5A5248;
+  --text3:       #8A8078;
+  --border:      #DDD8CF;
+  --border2:     #C8C0B4;
+  --shadow:      0 2px 16px rgba(0,0,0,.07);
+  --shadow2:     0 8px 40px rgba(0,0,0,.12);
+}
+
+html,body{min-height:100%;background:var(--cream);}
+body{
+  font-family:'Noto Sans KR',sans-serif;
+  font-size:14px;color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ── 배경 텍스처 */
+body::before{
+  content:'';
+  position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 0%, rgba(184,134,11,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 100%, rgba(184,134,11,.05) 0%, transparent 60%);
+  pointer-events:none;
+}
+
+/* ── NAV */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(250,247,242,.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  height:56px;display:flex;align-items:center;
+  padding:0 20px;
+  box-shadow:0 1px 0 var(--border);
+}
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;font-weight:700;
+  color:var(--gold);letter-spacing:4px;line-height:1;
+}
+.logo-sub{
+  font-size:11px;color:var(--text3);
+  font-weight:500;margin-left:8px;
+  letter-spacing:.5px;
+}
+.nav-back{
+  margin-left:auto;font-size:12px;
+  color:var(--text3);cursor:pointer;
+  display:flex;align-items:center;gap:4px;
+}
+.nav-back:hover{color:var(--gold);}
+
+/* ── STEP BAR */
+.step-bar{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  padding:14px 20px;
+}
+.steps{
+  display:flex;align-items:center;
+  max-width:520px;margin:0 auto;
+}
+.step{
+  display:flex;flex-direction:column;
+  align-items:center;flex:1;position:relative;
+}
+.step-circle{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;
+  border:2px solid var(--border);
+  background:var(--cream2);color:var(--text3);
+  transition:all .3s;z-index:1;
+}
+.step.done .step-circle{
+  background:var(--green);border-color:var(--green);color:#fff;
+}
+.step.active .step-circle{
+  background:var(--gold);border-color:var(--gold);color:#fff;
+  box-shadow:0 0 0 4px rgba(184,134,11,.15);
+}
+.step-label{
+  font-size:10px;color:var(--text3);
+  font-weight:500;margin-top:5px;white-space:nowrap;
+}
+.step.active .step-label{color:var(--gold);font-weight:700;}
+.step.done .step-label{color:var(--green);}
+.step-line{
+  flex:1;height:1.5px;
+  background:var(--border);
+  margin-top:-14px;z-index:0;
+  transition:background .3s;
+}
+.step-line.done{background:var(--green);}
+
+/* ── MAIN */
+.main-wrap{
+  min-height:calc(100vh - 104px);
+  display:flex;align-items:flex-start;
+  justify-content:center;
+  padding:28px 16px 48px;
+  position:relative;z-index:1;
+}
+
+/* ── CARD */
+.card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:20px;
+  width:100%;max-width:520px;
+  overflow:hidden;
+  box-shadow:var(--shadow2);
+}
+.card-header{
+  padding:28px 28px 20px;
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(135deg,var(--gold-bg),var(--white));
+}
+.card-eyebrow{
+  font-size:10px;font-weight:700;
+  color:var(--gold);letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:8px;
+}
+.card-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;font-weight:700;
+  color:var(--text);margin-bottom:6px;line-height:1.2;
+}
+.card-sub{
+  font-size:12px;color:var(--text2);
+  line-height:1.7;
+}
+.card-body{padding:24px 28px;}
+
+/* ── AGE BOX */
+.age-box{
+  display:flex;align-items:flex-start;gap:12px;
+  background:var(--red-bg);
+  border:1px solid rgba(184,50,50,.2);
+  border-radius:12px;padding:14px 16px;
+  margin-bottom:20px;
+}
+.age-icon{font-size:22px;flex-shrink:0;margin-top:1px;}
+.age-text{font-size:12px;color:var(--text2);line-height:1.7;}
+.age-text strong{color:var(--red);font-weight:700;}
+
+/* ── TERMS ALL */
+.terms-all{
+  display:flex;align-items:center;gap:10px;
+  padding:13px 16px;
+  background:var(--cream2);
+  border:1.5px solid var(--border2);
+  border-radius:12px;cursor:pointer;
+  margin-bottom:10px;
+  transition:all .2s;
+}
+.terms-all:hover{border-color:var(--gold);background:var(--gold-bg);}
+.terms-all-label{font-size:14px;font-weight:700;color:var(--text);}
+.terms-all-sub{font-size:11px;color:var(--text3);margin-left:auto;}
+
+/* ── TERMS LIST */
+.terms-list{
+  border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;
+  margin-bottom:20px;
+}
+.terms-item{
+  display:flex;align-items:center;
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+  gap:10px;background:var(--white);
+  transition:background .15s;
+}
+.terms-item:last-child{border-bottom:none;}
+.terms-item:hover{background:var(--cream2);}
+.terms-item-left{display:flex;align-items:center;gap:10px;flex:1;}
+.badge{
+  font-size:9px;padding:3px 8px;
+  border-radius:20px;font-weight:700;flex-shrink:0;
+}
+.badge-req{background:var(--red-bg);color:var(--red);border:1px solid rgba(184,50,50,.2);}
+.badge-opt{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(42,95,168,.2);}
+.terms-name{font-size:13px;font-weight:500;color:var(--text);}
+.terms-view{
+  font-size:11px;color:var(--blue);
+  cursor:pointer;padding:4px 8px;
+  border-radius:6px;flex-shrink:0;
+  font-weight:700;transition:all .2s;
+}
+.terms-view:hover{background:var(--blue-bg);}
+
+/* ── CHECKBOX */
+.chk{
+  width:20px;height:20px;border-radius:5px;
+  border:2px solid var(--border2);
+  background:var(--cream2);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;transition:all .2s;
+}
+.chk.on{background:var(--gold);border-color:var(--gold);}
+.chk.on::after{content:'✓';color:#fff;font-size:11px;font-weight:900;}
+
+/* ── SUBMIT BTN */
+.submit-btn{
+  width:100%;padding:15px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:none;border-radius:12px;
+  color:#fff;font-size:15px;font-weight:700;
+  cursor:pointer;font-family:'Noto Sans KR',sans-serif;
+  transition:all .2s;letter-spacing:.3px;
+  box-shadow:0 4px 20px rgba(184,134,11,.3);
+}
+.submit-btn:hover:not(:disabled){
+  transform:translateY(-1px);
+  box-shadow:0 6px 28px rgba(184,134,11,.4);
+}
+.submit-btn:disabled{
+  opacity:.4;cursor:not-allowed;
+  box-shadow:none;transform:none;
+}
+
+/* ── STEP 3: 팀 선택 */
+.field{margin-bottom:18px;}
+.field-label{
+  font-size:12px;font-weight:700;
+  color:var(--text2);margin-bottom:7px;display:block;
+}
+.req{color:var(--red);}
+.field-input{
+  width:100%;
+  background:var(--cream2);
+  border:1.5px solid var(--border);
+  border-radius:10px;padding:11px 14px;
+  color:var(--text);font-size:14px;
+  font-family:'Noto Sans KR',sans-serif;
+  outline:none;transition:all .2s;
+}
+.field-input:focus{
+  border-color:var(--gold);
+  background:var(--white);
+  box-shadow:0 0 0 3px rgba(184,134,11,.1);
+}
+.field-hint{font-size:11px;color:var(--text3);margin-top:5px;}
+.team-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+}
+@media(max-width:420px){
+  .team-grid{grid-template-columns:repeat(5,1fr);}
+}
+.team-btn{
+  display:flex;flex-direction:column;
+  align-items:center;gap:4px;
+  padding:10px 4px;
+  border:1.5px solid var(--border);
+  border-radius:10px;background:var(--cream2);
+  cursor:pointer;transition:all .2s;
+}
+.team-btn:hover{border-color:var(--gold-bd);background:var(--gold-bg);}
+.team-btn.sel{
+  border-color:var(--gold);background:var(--gold-bg);
+  box-shadow:0 0 0 2px rgba(184,134,11,.15);
+}
+.team-badge{
+  width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:900;border:2px solid transparent;
+}
+.team-name-small{font-size:10px;font-weight:700;color:var(--text2);}
+
+/* ── MODAL */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(28,23,18,.55);
+  backdrop-filter:blur(4px);
+  z-index:1000;align-items:center;
+  justify-content:center;padding:16px;
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:20px;width:100%;
+  max-width:580px;max-height:85vh;
+  display:flex;flex-direction:column;
+  box-shadow:var(--shadow2);
+  animation:modalIn .25s ease;
+}
+@keyframes modalIn{
+  from{opacity:0;transform:translateY(12px) scale(.98);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+.modal-header{
+  padding:20px 24px 16px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold-bg),var(--white));
+}
+.modal-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:700;color:var(--text);
+}
+.modal-close{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--cream2);border:1px solid var(--border);
+  color:var(--text3);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;transition:all .2s;
+}
+.modal-close:hover{background:var(--cream3);color:var(--text);}
+.modal-body{
+  overflow-y:auto;padding:20px 24px;flex:1;
+}
+.modal-body::-webkit-scrollbar{width:4px;}
+.modal-body::-webkit-scrollbar-track{background:var(--cream2);}
+.modal-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.modal-footer{
+  padding:16px 24px;border-top:1px solid var(--border);
+  display:flex;gap:10px;flex-shrink:0;
+}
+.modal-cancel{
+  flex:1;padding:11px;
+  background:var(--cream2);border:1px solid var(--border);
+  border-radius:10px;color:var(--text2);
+  font-size:13px;font-weight:700;cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;transition:all .2s;
+}
+.modal-cancel:hover{background:var(--cream3);}
+.modal-agree{
+  flex:2;padding:11px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:none;border-radius:10px;color:#fff;
+  font-size:13px;font-weight:700;cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;transition:all .2s;
+}
+.modal-agree:hover{opacity:.9;}
+
+/* ── 약관 본문 */
+.doc h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-weight:700;color:var(--gold);
+  margin:20px 0 10px;padding-bottom:6px;
+  border-bottom:1px solid var(--border);
+}
+.doc h2:first-child{margin-top:0;}
+.doc h3{font-size:13px;font-weight:700;color:var(--text);margin:12px 0 5px;}
+.doc p{font-size:12px;color:var(--text2);line-height:1.85;margin-bottom:8px;}
+.doc ul{padding-left:18px;margin-bottom:8px;}
+.doc li{font-size:12px;color:var(--text2);line-height:1.85;margin-bottom:3px;}
+.hl-box{
+  background:var(--gold-bg);
+  border:1px solid var(--gold-bd);
+  border-radius:10px;padding:12px 14px;margin:10px 0;
+}
+.hl-box p{color:var(--text);font-weight:500;margin:0;}
+.warn-box{
+  background:var(--red-bg);
+  border:1px solid rgba(184,50,50,.2);
+  border-radius:10px;padding:12px 14px;margin:10px 0;
+}
+.warn-box p{color:var(--text2);margin:0;font-size:12px;line-height:1.7;}
+
+/* ── SUCCESS */
+.success-wrap{
+  display:flex;flex-direction:column;
+  align-items:center;text-align:center;
+  padding:40px 28px;
+}
+.success-icon{
+  font-size:60px;margin-bottom:16px;
+  animation:bounce .6s ease;
+}
+@keyframes bounce{
+  0%{transform:scale(.5);opacity:0;}
+  60%{transform:scale(1.1);}
+  100%{transform:scale(1);opacity:1;}
+}
+.success-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;font-weight:700;
+  color:var(--text);margin-bottom:8px;
+}
+.success-sub{
+  font-size:13px;color:var(--text2);
+  line-height:1.7;margin-bottom:24px;
+}
+.pt-gift{
+  background:var(--gold-bg);
+  border:1.5px solid var(--gold-bd);
+  border-radius:14px;padding:20px;
+  margin-bottom:24px;width:100%;
+}
+.pt-gift-label{
+  font-size:10px;font-weight:700;
+  color:var(--gold);letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:8px;
+}
+.pt-gift-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:44px;font-weight:700;color:var(--gold);
+  line-height:1;
+}
+.pt-gift-sub{
+  font-size:11px;color:var(--text3);
+  margin-top:6px;font-family:'DM Mono',monospace;
+}
+.go-btn{
+  width:100%;padding:15px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:none;border-radius:12px;color:#fff;
+  font-size:15px;font-weight:700;cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;
+  box-shadow:0 4px 20px rgba(184,134,11,.3);
+  transition:all .2s;letter-spacing:.3px;
+}
+.go-btn:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(184,134,11,.4);}
+
+/* ── TOAST */
+#toast{
+  display:none;position:fixed;
+  bottom:max(24px,env(safe-area-inset-bottom));
+  left:50%;transform:translateX(-50%);
+  background:var(--text);color:#fff;
+  border-radius:30px;padding:11px 24px;
+  font-size:13px;font-weight:500;
+  z-index:9999;white-space:nowrap;
+  box-shadow:0 8px 32px rgba(0,0,0,.2);
+  transition:opacity .3s;
+}
+
+/* ── 소셜 버튼 */
+.social-btns{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.social-btn{
+  width:100%;padding:13px;border-radius:12px;
+  border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-size:14px;font-weight:700;cursor:pointer;
+  transition:all .2s;font-family:'Noto Sans KR',sans-serif;
+}
+.btn-kakao{background:#FEE500;color:#3C1E1E;border-color:#FEE500;}
+.btn-kakao:hover{background:#F0D800;}
+.btn-naver{background:#03C75A;color:#fff;border-color:#03C75A;}
+.btn-naver:hover{background:#02A84A;}
+.btn-google{background:var(--white);color:var(--text);border-color:var(--border);}
+.btn-google:hover{background:var(--cream2);}
+.divider{
+  display:flex;align-items:center;gap:12px;
+  margin:20px 0;color:var(--text3);font-size:12px;
+}
+.divider::before,.divider::after{
+  content:'';flex:1;height:1px;background:var(--border);
+}
+
+/* ── m-chip */
+.m-chip{
+  background:var(--cream2);border:1px solid var(--border);
+  border-radius:20px;padding:4px 11px;
+  font-size:11px;color:var(--text2);font-weight:500;
+  cursor:pointer;transition:all .2s;
+}
+.m-chip:hover{border-color:var(--gold-bd);background:var(--gold-bg);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">GAUDIA</div>
+  <span class="logo-sub">KBO 예측</span>
+  <div class="nav-back" onclick="history.back()">← 돌아가기</div>
+</nav>
+
+<!-- STEP BAR -->
+<div class="step-bar">
+  <div class="steps" id="step-bar">
+    <div class="step done" id="s1">
+      <div class="step-circle">✓</div>
+      <div class="step-label">소셜 로그인</div>
+    </div>
+    <div class="step-line done" id="line1"></div>
+    <div class="step active" id="s2">
+      <div class="step-circle">2</div>
+      <div class="step-label">약관 동의</div>
+    </div>
+    <div class="step-line" id="line2"></div>
+    <div class="step" id="s3">
+      <div class="step-circle">3</div>
+      <div class="step-label">정보 입력</div>
+    </div>
+    <div class="step-line" id="line3"></div>
+    <div class="step" id="s4">
+      <div class="step-circle">4</div>
+      <div class="step-label">가입 완료</div>
+    </div>
+  </div>
+</div>
+
+<div class="main-wrap">
+<div class="card" id="main-card">
+
+<!-- ── STEP 1: 소셜 로그인 (이미 완료 표시) -->
+<!-- ── STEP 2: 약관 동의 -->
+<div id="step-terms">
+  <div class="card-header">
+    <div class="card-eyebrow">Step 2 · 약관 동의</div>
+    <div class="card-title">서비스 이용 약관</div>
+    <div class="card-sub">GAUDIA는 집단지성 기반 KBO 정보 예측 리서치 플랫폼입니다.<br>안전하고 즐거운 서비스 이용을 위해 아래 약관을 확인해주세요.</div>
+  </div>
+  <div class="card-body">
+
+    <!-- 만 19세 -->
+    <div class="age-box">
+      <div class="age-icon">🔞</div>
+      <div class="age-text">
+        <strong>본 서비스는 만 19세 이상만 이용 가능합니다.</strong><br>
+        미성년자의 가입 및 이용은 허용되지 않으며, 허위 나이로 가입 시 서비스 이용이 즉시 제한됩니다.
+      </div>
+    </div>
+
+    <!-- 전체 동의 -->
+    <div class="terms-all" onclick="toggleAll()">
+      <div class="chk" id="chk-all"></div>
+      <div class="terms-all-label">전체 동의하기</div>
+      <div class="terms-all-sub">필수 + 선택 포함</div>
+    </div>
+
+    <div class="terms-list">
+      <div class="terms-item">
+        <div class="terms-item-left">
+          <div class="chk" id="chk-age" onclick="toggleChk('chk-age')"></div>
+          <span class="badge badge-req">필수</span>
+          <span class="terms-name">만 19세 이상 본인 확인</span>
+        </div>
+        <span class="terms-view" onclick="openModal('m-age')">보기</span>
+      </div>
+      <div class="terms-item">
+        <div class="terms-item-left">
+          <div class="chk" id="chk-svc" onclick="toggleChk('chk-svc')"></div>
+          <span class="badge badge-req">필수</span>
+          <span class="terms-name">서비스 이용약관</span>
+        </div>
+        <span class="terms-view" onclick="openModal('m-svc')">보기</span>
+      </div>
+      <div class="terms-item">
+        <div class="terms-item-left">
+          <div class="chk" id="chk-prv" onclick="toggleChk('chk-prv')"></div>
+          <span class="badge badge-req">필수</span>
+          <span class="terms-name">개인정보 수집 및 이용 동의</span>
+        </div>
+        <span class="terms-view" onclick="openModal('m-prv')">보기</span>
+      </div>
+      <div class="terms-item">
+        <div class="terms-item-left">
+          <div class="chk" id="chk-pt" onclick="toggleChk('chk-pt')"></div>
+          <span class="badge badge-req">필수</span>
+          <span class="terms-name">포인트 운영 정책 (비환금성 확인)</span>
+        </div>
+        <span class="terms-view" onclick="openModal('m-pt')">보기</span>
+      </div>
+      <div class="terms-item">
+        <div class="terms-item-left">
+          <div class="chk" id="chk-mkt" onclick="toggleChk('chk-mkt')"></div>
+          <span class="badge badge-opt">선택</span>
+          <span class="terms-name">마케팅 정보 수신 동의</span>
+        </div>
+        <span class="terms-view" onclick="openModal('m-mkt')">보기</span>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="btn-terms" onclick="goStep3()" disabled>
+      다음 단계로 →
+    </button>
+  </div>
+</div>
+
+<!-- ── STEP 3: 정보 입력 -->
+<div id="step-info" style="display:none;">
+  <div class="card-header">
+    <div class="card-eyebrow">Step 3 · 프로필 설정</div>
+    <div class="card-title">나만의 프로필</div>
+    <div class="card-sub">닉네임과 응원 팀을 설정하면 리더보드에 표시됩니다.</div>
+  </div>
+  <div class="card-body">
+    <div class="field">
+      <label class="field-label">닉네임 <span class="req">*</span></label>
+      <input class="field-input" type="text" id="nickname"
+        placeholder="예: 야구신, 잠실의신, KBO분석가"
+        maxlength="12" oninput="checkInfo()"/>
+      <div class="field-hint">한/영 2~12자 · 공백 및 특수문자 불가</div>
+    </div>
+    <div class="field">
+      <label class="field-label">응원 팀 <span style="color:var(--text3);font-weight:400;">(선택)</span></label>
+      <div class="team-grid" id="team-grid">
+        <div class="team-btn" onclick="selTeam(this,'LG')">
+          <div class="team-badge" style="background:#FFE8E8;color:#C8102E;border-color:#C8102E;">LG</div>
+          <div class="team-name-small">LG</div>
+        </div>
+        <div class="team-btn" onclick="selTeam(this,'KT')">
+          <div class="team-badge" style="background:#FFE8E8;color:#E31837;border-color:#E31837;">KT</div>
+          <div class="team-name-small">KT</div>
+        </div>
+        <div class="team-btn" onclick="selTeam(this,'SSG')">
+          <div class="team-badge" style="background:#FFE8E8;color:#CE1212;border-color:#CE1212;">SSG</div>
+          <div class="team-name-small">SSG</div>
+        </div>
+        <div class="team-btn" onclick="selTeam(this,'NC')">
+          <div class="team-badge" style="background:#ECEEF8;color:#333399;border-color:#333399;">NC</div>
+          <div class="team-name-small">NC</div>
+        </div>
+        <div class="team-btn" onclick="selTeam(this,'두산')">
+          <div class="team-badge" style="background:#E8E8F0;color:#000066;border-color:#000066;">두산</div>
+          <div class="team-name-small">두산</div>
+        </div>
+        <div class="team-btn" onclick="selTeam(this,'KIA')">
+          <div class="team-badge" style="background:#FFE8E8;color:#CF152D;border-color:#CF152D;">KIA</div>
+          <div class="team-name-small">KIA</div>
+        </div>
+        <div class="team-btn" onclick="selTeam(this,'삼성')">
+          <div class="team-badge" style="background:#E8EFF8;color:#074CA1;border-color:#074CA1;">삼성</div>
+          <div class="team-name-small">삼성</div>
+        </div>
+        <div class="team-btn" onclick="selTeam(this,'한화')">
+          <div class="team-badge" style="background:#FFF0E8;color:#FF6600;border-color:#FF6600;">한화</div>
+          <div class="team-name-small">한화</div>
+        </div>
+        <div class="team-btn" onclick="selTeam(this,'롯데')">
+          <div class="team-badge" style="background:#E8EEF5;color:#041E42;border-color:#041E42;">롯데</div>
+          <div class="team-name-small">롯데</div>
+        </div>
+        <div class="team-btn" onclick="selTeam(this,'키움')">
+          <div class="team-badge" style="background:#F5EEF0;color:#570514;border-color:#570514;">키움</div>
+          <div class="team-name-small">키움</div>
+        </div>
+      </div>
+    </div>
+    <button class="submit-btn" id="btn-info" onclick="goStep4()" disabled style="margin-top:8px;">
+      가입 완료하기 🎉
+    </button>
+  </div>
+</div>
+
+<!-- ── STEP 4: 완료 -->
+<div id="step-done" style="display:none;">
+  <div class="success-wrap">
+    <div class="success-icon">⚾</div>
+    <div class="success-title">GAUDIA에 오신 걸<br>환영합니다!</div>
+    <div class="success-sub" id="welcome-msg">
+      경기마다 쌓이는 즐거운 순간들,<br>지금 바로 오늘의 경기를 예측해보세요!
+    </div>
+    <div class="pt-gift">
+      <div class="pt-gift-label">🎁 신규 가입 선물</div>
+      <div class="pt-gift-val">500 PT</div>
+      <div class="pt-gift-sub">포인트 지급 완료 · 현금 전환 불가</div>
+    </div>
+    <button class="go-btn" onclick="toast('메인 화면으로 이동합니다!')">
+      예측 시작하기 →
+    </button>
+  </div>
+</div>
+
+</div><!-- /card -->
+</div><!-- /main-wrap -->
+
+<!-- ════ MODALS ════ -->
+
+<!-- 만 19세 -->
+<div class="modal-overlay" id="m-age">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">만 19세 이상 본인 확인</div>
+      <div class="modal-close" onclick="closeModal('m-age')">✕</div>
+    </div>
+    <div class="modal-body">
+      <div class="doc">
+        <div class="hl-box"><p>본 서비스는 정보 예측 및 리서치 플랫폼으로, 만 19세 이상 성인만 이용 가능합니다.</p></div>
+        <h2>제1조 이용 연령 제한</h2>
+        <p>GAUDIA(이하 "서비스")는 만 19세 미만 미성년자의 회원 가입 및 서비스 이용을 금지합니다.</p>
+        <ul>
+          <li>가입 시 본인이 만 19세 이상임을 확인하고 동의하여야 합니다.</li>
+          <li>허위 정보로 가입한 경우 회원 자격이 즉시 박탈되며, 보유 포인트는 소멸됩니다.</li>
+          <li>미성년자 가입 사실이 확인될 경우 법정대리인의 요청에 따라 계정이 삭제됩니다.</li>
+        </ul>
+        <h2>제2조 본인 확인</h2>
+        <p>회사는 필요 시 본인 인증 수단(휴대폰 인증 등)을 통해 이용자의 연령을 확인할 수 있으며, 인증 거부 시 서비스 이용이 제한될 수 있습니다.</p>
+        <div class="warn-box"><p>⚠️ 본인은 만 19세 이상이며, 위 내용을 충분히 이해하고 동의합니다.</p></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal('m-age')">닫기</button>
+      <button class="modal-agree" onclick="agreeClose('m-age','chk-age')">확인 및 동의</button>
+    </div>
+  </div>
+</div>
+
+<!-- 서비스 이용약관 -->
+<div class="modal-overlay" id="m-svc">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">서비스 이용약관</div>
+      <div class="modal-close" onclick="closeModal('m-svc')">✕</div>
+    </div>
+    <div class="modal-body">
+      <div class="doc">
+        <div class="hl-box"><p>GAUDIA는 금전 투입이 없는 무료 포인트 기반의 집단지성 정보 예측 리서치 플랫폼입니다. 도박·사행성 게임·금융투자 서비스가 아닙니다.</p></div>
+        <h2>제1조 (목적)</h2>
+        <p>이 약관은 GAUDIA 서비스의 이용과 관련하여 회사와 이용자 간의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+        <h2>제2조 (서비스 정의)</h2>
+        <h3>① 서비스 성격</h3>
+        <ul>
+          <li>KBO 프로야구 경기 관련 사실적 정보에 대한 이용자의 예측 의견을 수집·집계하는 <strong>집단지성 리서치 플랫폼</strong></li>
+          <li>이용자 간 예측 정확도를 비교하는 <strong>정보 커뮤니티 서비스</strong></li>
+        </ul>
+        <h3>② 서비스 비해당 항목</h3>
+        <div class="warn-box">
+          <p>본 서비스는 다음에 해당하지 않습니다.<br>
+          • 형법 제246조의 도박 또는 사행행위<br>
+          • 게임산업진흥법상 사행성 게임물<br>
+          • 자본시장법상 금융투자상품<br>
+          • 체육진흥투표권(스포츠 토토)</p>
+        </div>
+        <h2>제3조 (포인트 제도)</h2>
+        <ul>
+          <li>포인트는 현금·가상자산 등 어떠한 형태로도 교환되지 않습니다.</li>
+          <li>포인트는 타 이용자에게 양도·거래·이전될 수 없습니다.</li>
+          <li>회사는 포인트 잔액에 대한 어떠한 금전적 보상 의무도 부담하지 않습니다.</li>
+        </ul>
+        <h2>제4조 (면책)</h2>
+        <p>서비스 내 예측 정보는 참고용 집단 의견이며, 실제 경기 결과와 다를 수 있습니다.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal('m-svc')">닫기</button>
+      <button class="modal-agree" onclick="agreeClose('m-svc','chk-svc')">확인 및 동의</button>
+    </div>
+  </div>
+</div>
+
+<!-- 개인정보 -->
+<div class="modal-overlay" id="m-prv">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">개인정보 수집 및 이용 동의</div>
+      <div class="modal-close" onclick="closeModal('m-prv')">✕</div>
+    </div>
+    <div class="modal-body">
+      <div class="doc">
+        <h2>수집하는 개인정보 항목</h2>
+        <h3>필수 수집 항목</h3>
+        <ul>
+          <li>소셜 로그인 제공자로부터 수신되는 고유 식별자(ID)</li>
+          <li>닉네임, 프로필 이미지(선택 제공 시)</li>
+          <li>서비스 이용 기록, 예측 참여 이력, 접속 로그</li>
+        </ul>
+        <h3>선택 수집 항목</h3>
+        <ul>
+          <li>이메일 주소(마케팅 수신 동의 시)</li>
+          <li>응원 팀 정보</li>
+        </ul>
+        <h2>수집 및 이용 목적</h2>
+        <ul>
+          <li>회원 식별 및 서비스 제공</li>
+          <li>예측 정확도 통계 산출 및 리더보드 운영</li>
+          <li>포인트 지급·정산 내역 관리</li>
+          <li>부정 이용 방지 및 서비스 개선</li>
+        </ul>
+        <h2>보유 및 이용 기간</h2>
+        <p>회원 탈퇴 시 즉시 삭제합니다. 단, 관계 법령에 따라 보존이 필요한 정보는 해당 기간 동안 보관합니다.</p>
+        <div class="warn-box">
+          <p>⚠️ 개인정보 수집·이용에 동의하지 않으실 수 있으나, 거부 시 서비스 이용이 불가합니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal('m-prv')">닫기</button>
+      <button class="modal-agree" onclick="agreeClose('m-prv','chk-prv')">확인 및 동의</button>
+    </div>
+  </div>
+</div>
+
+<!-- 포인트 정책 -->
+<div class="modal-overlay" id="m-pt">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">포인트 운영 정책</div>
+      <div class="modal-close" onclick="closeModal('m-pt')">✕</div>
+    </div>
+    <div class="modal-body">
+      <div class="doc">
+        <div class="hl-box"><p>GAUDIA의 포인트는 서비스 활동 참여를 장려하기 위한 비재산적 활동 지표입니다. 어떠한 방법으로도 현금화할 수 없습니다.</p></div>
+        <h2>포인트의 법적 성격</h2>
+        <ul>
+          <li><strong>재산적 가치 없음:</strong> 선불전자지급수단, 전자화폐에 해당하지 않습니다.</li>
+          <li><strong>환금 불가:</strong> 현금·상품권·가상자산으로 교환·환전되지 않습니다.</li>
+          <li><strong>양도 불가:</strong> 본인만 사용 가능하며, 타인에게 이전·판매할 수 없습니다.</li>
+          <li><strong>무상 지급:</strong> 이용자는 포인트 획득을 위해 현금을 지출하지 않습니다.</li>
+        </ul>
+        <h2>포인트 획득 방법</h2>
+        <ul>
+          <li>신규 가입 선물: 500 PT</li>
+          <li>매일 출석 체크: +50 PT</li>
+          <li>예측 적중 보너스: 참여 PT × (100÷예측비율) × 0.95</li>
+          <li>친구 초대: +100 PT</li>
+        </ul>
+        <div class="warn-box">
+          <p>⚠️ 포인트를 현금으로 환전하거나 제3자에게 매도하는 행위는 약관 위반으로 계정이 영구 정지됩니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal('m-pt')">닫기</button>
+      <button class="modal-agree" onclick="agreeClose('m-pt','chk-pt')">확인 및 동의</button>
+    </div>
+  </div>
+</div>
+
+<!-- 마케팅 -->
+<div class="modal-overlay" id="m-mkt">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">마케팅 정보 수신 동의 (선택)</div>
+      <div class="modal-close" onclick="closeModal('m-mkt')">✕</div>
+    </div>
+    <div class="modal-body">
+      <div class="doc">
+        <p>동의하지 않으셔도 서비스 이용에 불이익이 없습니다.</p>
+        <h2>수신 동의 내용</h2>
+        <ul>
+          <li>GAUDIA 신규 예측 토픽 알림</li>
+          <li>주간 예측 정확도 리포트</li>
+          <li>이벤트·경품 프로모션 안내</li>
+          <li>서비스 업데이트 및 새 기능 소식</li>
+        </ul>
+        <h2>철회 방법</h2>
+        <p>언제든지 앱 설정 → 알림 설정에서 수신을 거부하실 수 있습니다.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal('m-mkt')">닫기</button>
+      <button class="modal-agree" onclick="agreeClose('m-mkt','chk-mkt')">확인 및 동의</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const REQ=['chk-age','chk-svc','chk-prv','chk-pt'];
+const ALL=['chk-age','chk-svc','chk-prv','chk-pt','chk-mkt'];
+
+function isOn(id){return document.getElementById(id).classList.contains('on');}
+function setOn(id,v){
+  const el=document.getElementById(id);
+  v ? el.classList.add('on') : el.classList.remove('on');
+}
+function toggleChk(id){setOn(id,!isOn(id));syncAll();validate();}
+function toggleAll(){
+  const all=ALL.every(isOn);
+  ALL.forEach(id=>setOn(id,!all));
+  setOn('chk-all',!all);
+  validate();
+}
+function syncAll(){setOn('chk-all',ALL.every(isOn));}
+function validate(){
+  document.getElementById('btn-terms').disabled=!REQ.every(isOn);
+}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function agreeClose(mid,cid){
+  setOn(cid,true);syncAll();validate();
+  closeModal(mid);toast('✅ 동의 완료');
+}
+
+function goStep3(){
+  document.getElementById('step-terms').style.display='none';
+  document.getElementById('step-info').style.display='block';
+  // stepper
+  const s2=document.getElementById('s2');
+  s2.classList.remove('active');s2.classList.add('done');
+  s2.querySelector('.step-circle').textContent='✓';
+  document.getElementById('s3').classList.add('active');
+  document.getElementById('line2').classList.add('done');
+  window.scrollTo(0,0);
+}
+
+function selTeam(el){
+  document.querySelectorAll('.team-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function checkInfo(){
+  const nick=document.getElementById('nickname').value.trim();
+  document.getElementById('btn-info').disabled=nick.length<2;
+}
+
+function goStep4(){
+  const nick=document.getElementById('nickname').value.trim();
+  document.getElementById('step-info').style.display='none';
+  document.getElementById('step-done').style.display='block';
+  document.getElementById('welcome-msg').innerHTML=
+    `<strong style="color:var(--gold);">${nick}</strong>님,<br>GAUDIA에 합류하신 걸 환영합니다!<br>오늘의 KBO 경기를 예측해보세요.`;
+  const s3=document.getElementById('s3');
+  s3.classList.remove('active');s3.classList.add('done');
+  s3.querySelector('.step-circle').textContent='✓';
+  document.getElementById('s4').classList.add('active');
+  document.getElementById('line3').classList.add('done');
+  window.scrollTo(0,0);
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.display='block';t.style.opacity='1';
+  clearTimeout(window._tt);
+  window._tt=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.style.display='none',300);},2200);
+}
+
+// 모달 오버레이 클릭 닫기
+document.querySelectorAll('.modal-overlay').forEach(o=>{
+  o.addEventListener('click',function(e){
+    if(e.target===this)this.classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>
