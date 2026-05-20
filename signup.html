@@ -527,6 +527,27 @@ nav{
 <div class="card" id="main-card">
 
 <!-- ── STEP 1: 소셜 로그인 (이미 완료 표시) -->
+ <div id="step-social" class="card">
+  <div class="card-header">
+    <div class="card-eyebrow">Step 1 · 소셜 로그인</div>
+    <div class="card-title">시작하기</div>
+    <div class="card-sub">소셜 계정으로 간편하게 시작하세요</div>
+  </div>
+  <div class="card-body">
+    <div class="social-btns">
+      <!-- 카카오 로그인 -->
+      <button class="social-btn btn-kakao" onclick="loginWithKakao()">
+        <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 2C5.58 2 2 4.93 2 8.5c0 2.26 1.5 4.24 3.75 5.37l-.96 3.57 4.17-2.75c.34.05.69.07 1.04.07 4.42 0 8-2.93 8-6.5S14.42 2 10 2z" fill="#3C1E1E"/></svg>
+        카카오로 시작하기
+      </button>
+      <!-- 구글 로그인 -->
+      <button class="social-btn btn-google" onclick="loginWithGoogle()">
+        <svg width="20" height="20" viewBox="0 0 20 20"><path d="M19.6 10.23c0-.68-.06-1.36-.18-2H10v3.77h5.4a4.6 4.6 0 01-2 3.02v2.5h3.24c1.9-1.75 3-4.32 3-7.29z" fill="#4285F4"/><path d="M10 20c2.7 0 4.96-.9 6.62-2.42l-3.24-2.5c-.9.6-2.04.96-3.38.96-2.6 0-4.8-1.76-5.6-4.12H1.06v2.58A10 10 0 0010 20z" fill="#34A853"/><path d="M4.4 11.92A5.97 5.97 0 014.08 10c0-.67.12-1.32.32-1.92V5.5H1.06A10 10 0 000 10c0 1.62.38 3.14 1.06 4.5l3.34-2.58z" fill="#FBBC05"/><path d="M10 3.96c1.47 0 2.78.5 3.82 1.5l2.86-2.86C14.96.9 12.7 0 10 0A10 10 0 001.06 5.5L4.4 8.08C5.2 5.72 7.4 3.96 10 3.96z" fill="#EA4335"/></svg>
+        구글로 시작하기
+      </button>
+    </div>
+  </div>
+</div>
 <!-- ── STEP 2: 약관 동의 -->
 <div id="step-terms">
   <div class="card-header">
