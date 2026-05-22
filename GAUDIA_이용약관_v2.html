@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAUDIA 서비스 이용약관</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#1A1A2E; --gold:#B8860B; --gold_bg:#FDF8EC; --gold_bd:#DFC06A;
+  --cream:#FAF7F2; --cream2:#F3EFE8; --text:#1C1712; --text2:#5A5248;
+  --text3:#8A8078; --border:#DDD8CF; --green:#2A7A52; --green_bg:#EDF7F2;
+  --red:#B83232; --red_bg:#FDF0EF;
+}
+body{background:var(--cream);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:14px;line-height:1.8;}
+.wrap{max-width:800px;margin:0 auto;padding:24px 16px 60px;}
+
+/* 헤더 */
+.header{background:var(--navy);padding:32px 24px;border-radius:16px;margin-bottom:24px;text-align:center;}
+.header-logo{font-size:28px;font-weight:700;color:var(--gold);letter-spacing:4px;margin-bottom:8px;}
+.header-title{font-size:18px;color:#E8D9AA;margin-bottom:4px;}
+.header-date{font-size:12px;color:#6A6460;}
+
+/* 요약 박스 */
+.summary{background:var(--gold_bg);border:1.5px solid var(--gold_bd);border-radius:12px;padding:16px 20px;margin-bottom:24px;}
+.summary-title{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px;}
+.summary-item{display:flex;align-items:flex-start;gap:8px;padding:4px 0;font-size:12px;color:var(--text2);}
+.summary-icon{font-size:14px;flex-shrink:0;}
+
+/* 목차 */
+.toc{background:var(--cream2);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:28px;}
+.toc-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;}
+.toc-list{list-style:none;}
+.toc-list li{padding:3px 0;}
+.toc-list a{font-size:12px;color:var(--gold);text-decoration:none;}
+.toc-list a:hover{text-decoration:underline;}
+
+/* 섹션 */
+.section{margin-bottom:32px;}
+.section-num{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:1px;margin-bottom:4px;}
+.section-title{font-size:17px;font-weight:700;color:var(--navy);border-bottom:2px solid var(--gold_bd);padding-bottom:8px;margin-bottom:14px;}
+.section-content{font-size:13px;color:var(--text2);line-height:2;}
+
+/* 조항 */
+.article{margin-bottom:16px;}
+.article-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;}
+ol.article-list{padding-left:18px;}
+ol.article-list li{font-size:13px;color:var(--text2);line-height:2;margin-bottom:2px;}
+ul.dot-list{padding-left:18px;list-style:disc;}
+ul.dot-list li{font-size:13px;color:var(--text2);line-height:2;}
+
+/* 강조 박스 */
+.highlight{background:var(--green_bg);border-left:4px solid var(--green);border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:12px;color:var(--text2);}
+.highlight strong{color:var(--green);}
+.warning{background:var(--red_bg);border-left:4px solid var(--red);border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:12px;color:var(--text2);}
+.warning strong{color:var(--red);}
+.notice{background:var(--gold_bg);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:12px;color:var(--text2);}
+
+/* 포인트 구조 표 */
+.point-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px;}
+.point-table th{background:var(--navy);color:white;padding:8px 12px;text-align:left;}
+.point-table td{padding:8px 12px;border-bottom:1px solid var(--border);}
+.point-table tr:nth-child(even) td{background:var(--cream2);}
+
+/* 푸터 */
+.footer{background:var(--navy);border-radius:12px;padding:20px;text-align:center;margin-top:32px;}
+.footer-text{font-size:11px;color:#6A6460;line-height:2;}
+
+/* 법무 검토 배지 */
+.review-badge{display:inline-block;background:var(--red_bg);border:1px solid var(--red);border-radius:20px;padding:3px 12px;font-size:10px;font-weight:700;color:var(--red);margin-bottom:16px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 헤더 -->
+  <div class="header">
+    <div class="header-logo">GAUDIA</div>
+    <div class="header-title">서비스 이용약관</div>
+    <div class="header-date">시행일: 2026년 7월 31일 · 버전 1.0 (법무 검토 초안)</div>
+  </div>
+
+  <!-- 법무 검토 중 배지 -->
+  <div style="text-align:center;margin-bottom:16px;">
+    <span class="review-badge">⚠️ 법무 검토 진행 중 — 정식 버전 아님</span>
+  </div>
+
+  <!-- 요약 박스 -->
+  <div class="summary">
+    <div class="summary-title">📋 이용약관 핵심 요약 (법적 효력 없음 · 이해를 돕기 위한 요약)</div>
+    <div class="summary-item"><span class="summary-icon">✅</span>GAUDIA는 KBO 야구 팬을 위한 집단지성 예측 플랫폼입니다. 현금을 투입하는 구조가 없습니다.</div>
+    <div class="summary-item"><span class="summary-icon">✅</span>포인트는 가입 시 무료로 지급되며 현금·상품권·가상자산으로 전환이 불가합니다.</div>
+    <div class="summary-item"><span class="summary-icon">✅</span>포인트는 타인에게 양도·거래·판매할 수 없으며 본인만 사용 가능합니다.</div>
+    <div class="summary-item"><span class="summary-icon">⚠️</span>본 서비스는 만 19세 이상 성인만 이용 가능합니다.</div>
+    <div class="summary-item"><span class="summary-icon">⚠️</span>정치·선거·공직 관련 예측 토픽은 제공하지 않습니다.</div>
+  </div>
+
+  <!-- 목차 -->
+  <div class="toc">
+    <div class="toc-title">목차</div>
+    <ul class="toc-list">
+      <li><a href="#a1">제1조 목적</a></li>
+      <li><a href="#a2">제2조 정의</a></li>
+      <li><a href="#a3">제3조 약관의 효력 및 변경</a></li>
+      <li><a href="#a4">제4조 서비스 이용 계약</a></li>
+      <li><a href="#a5">제5조 회원가입 및 자격</a></li>
+      <li><a href="#a6">제6조 포인트 시스템</a></li>
+      <li><a href="#a7">제7조 예측 서비스</a></li>
+      <li><a href="#a8">제8조 이용자의 의무</a></li>
+      <li><a href="#a9">제9조 서비스 제공 및 중단</a></li>
+      <li><a href="#a10">제10조 개인정보 보호</a></li>
+      <li><a href="#a11">제11조 책임의 한계</a></li>
+      <li><a href="#a12">제12조 분쟁 해결</a></li>
+      <li><a href="#a13">제13조 기타</a></li>
+    </ul>
+  </div>
+
+  <!-- 제1조 -->
+  <div class="section" id="a1">
+    <div class="section-num">ARTICLE 01</div>
+    <div class="section-title">제1조 (목적)</div>
+    <div class="section-content">
+      본 약관은 GAUDIA(가우디아, 이하 "회사")가 제공하는 KBO 프로야구 집단지성 예측 플랫폼 서비스(이하 "서비스")의 이용과 관련하여 회사와 이용자 간의 권리·의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
+    </div>
+  </div>
+
+  <!-- 제2조 -->
+  <div class="section" id="a2">
+    <div class="section-num">ARTICLE 02</div>
+    <div class="section-title">제2조 (정의)</div>
+    <div class="section-content">
+      <div class="article">
+        <ol class="article-list">
+          <li>"서비스"란 회사가 제공하는 KBO 프로야구 경기 결과 예측, 리더보드, 커뮤니티 등 일체의 서비스를 말합니다.</li>
+          <li>"이용자"란 본 약관에 동의하고 서비스를 이용하는 자를 말합니다.</li>
+          <li>"회원"이란 서비스에 가입하여 계정을 보유한 이용자를 말합니다.</li>
+          <li>"포인트"란 회사가 이용자에게 무료로 지급하는 비환금성 가상 화폐로, 예측 참여 등 서비스 내 활동에만 사용 가능한 것을 말합니다.</li>
+          <li>"예측"이란 이용자가 KBO 경기의 승패·선취점·선수 스탯 등을 포인트를 사용하여 맞히는 행위를 말합니다.</li>
+          <li>"토픽"이란 회사가 제공하는 예측 참여 가능한 개별 질문 항목을 말합니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 제3조 -->
+  <div class="section" id="a3">
+    <div class="section-num">ARTICLE 03</div>
+    <div class="section-title">제3조 (약관의 효력 및 변경)</div>
+    <div class="section-content">
+      <div class="article">
+        <ol class="article-list">
+          <li>본 약관은 서비스 화면에 게시하거나 기타 방법으로 이용자에게 공지함으로써 효력이 발생합니다.</li>
+          <li>회사는 관련 법령을 위배하지 않는 범위에서 본 약관을 개정할 수 있습니다.</li>
+          <li>약관을 개정하는 경우 적용일자 및 개정 사유를 명시하여 서비스 내 공지사항에 개정일 7일 전부터 공지합니다.</li>
+          <li>이용자가 개정 약관 적용일 이후에도 서비스를 계속 이용하는 경우, 개정 약관에 동의한 것으로 간주합니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 제4조 -->
+  <div class="section" id="a4">
+    <div class="section-num">ARTICLE 04</div>
+    <div class="section-title">제4조 (서비스 이용 계약)</div>
+    <div class="section-content">
+      <div class="article">
+        <ol class="article-list">
+          <li>서비스 이용 계약은 이용자가 본 약관에 동의하고 회원가입을 완료한 시점에 성립합니다.</li>
+          <li>이용자는 카카오, 구글 등 소셜 계정을 통해 간편하게 회원가입할 수 있습니다.</li>
+          <li>회사는 다음 각 호에 해당하는 경우 이용 계약을 거절하거나 사후에 해지할 수 있습니다.
+            <ul class="dot-list" style="margin-top:4px;">
+              <li>만 19세 미만인 경우</li>
+              <li>허위 정보를 제공한 경우</li>
+              <li>이전에 서비스 이용 제한을 받은 경우</li>
+              <li>기타 관련 법령에 위반되는 경우</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 제5조 -->
+  <div class="section" id="a5">
+    <div class="section-num">ARTICLE 05</div>
+    <div class="section-title">제5조 (회원가입 및 자격)</div>
+    <div class="section-content">
+      <div class="warning">
+        <strong>⚠️ 중요:</strong> 본 서비스는 만 19세 이상 성인만 이용 가능합니다. 만 19세 미만 이용자가 가입한 사실이 확인되는 경우 즉시 계정이 삭제되며 보유 포인트는 소멸됩니다.
+      </div>
+      <div class="article">
+        <ol class="article-list">
+          <li>본 서비스는 만 19세 이상 성인만 이용 가능합니다.</li>
+          <li>회원가입 시 본인 확인 절차가 요구될 수 있습니다.</li>
+          <li>1인 1계정 원칙을 적용하며, 동일인이 복수의 계정을 이용하는 것을 금지합니다.</li>
+          <li>타인의 소셜 계정을 도용하여 가입하는 것을 엄격히 금지합니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 제6조 (핵심) -->
+  <div class="section" id="a6">
+    <div class="section-num">ARTICLE 06</div>
+    <div class="section-title">제6조 (포인트 시스템)</div>
+    <div class="section-content">
+
+      <div class="highlight">
+        <strong>✅ 법적 안전 3원칙:</strong> GAUDIA 포인트는 ① 이용자의 현금 투입 없음 ② 현금·가상자산 전환 완전 불가 ③ 타인 양도·거래·판매 완전 불가 — 이 세 가지 원칙을 엄격히 준수합니다.
+      </div>
+
+      <div class="article">
+        <div class="article-title">① 포인트의 성격 (비재산적 서비스 이용 수단)</div>
+        <ol class="article-list">
+          <li>포인트는 회사가 이용자에게 <strong>무상으로 지급하는 비재산적 서비스 이용 수단</strong>으로, 재산적 가치를 지니지 않습니다.</li>
+          <li>포인트는 어떠한 경우에도 현금, 상품권, 가상자산, 외부 플랫폼 이용권, 할인권, NFT 등 일체의 재산적 가치가 있는 것으로 전환되지 않습니다.</li>
+          <li>포인트는 이용자 간 양도, 거래, 판매, 증여가 불가능합니다.</li>
+          <li>포인트는 서비스 내 예측 참여 및 이벤트 응모에만 사용 가능하며, 외부 서비스와 연동되거나 외부에서 사용될 수 없습니다.</li>
+          <li>포인트 순위·랭킹은 서비스 내 명예적 표시에 한하며, 포인트 순위에 따른 현물·현금·상품권 등 재산적 가치의 직접 지급은 이루어지지 않습니다.</li>
+          <li>이벤트 경품은 포인트와의 직접 교환이 아닌 <strong>추첨 방식</strong>으로만 제공되며, 포인트 자체는 경품 수령 여부와 무관하게 재산적 가치를 갖지 않습니다.</li>
+        </ol>
+      </div>
+
+      <div class="warning" style="margin-top:12px;">
+        <strong>⚠️ 중요:</strong> 포인트는 광고 수익 분배, 외부 제휴 할인, NFT 발행, 기타 재산적 이익과 연결되지 않습니다. 이를 위반하는 방식으로 포인트를 활용하거나 제3자가 포인트에 재산적 가치를 부여하는 행위는 서비스 이용약관 위반입니다.
+      </div>
+
+      <div class="article" style="margin-top:14px;">
+        <div class="article-title">② 포인트 지급 구조</div>
+        <table class="point-table">
+          <tr><th>지급 유형</th><th>지급량</th><th>조건</th></tr>
+          <tr><td>가입 축하 포인트</td><td>500 PT</td><td>최초 가입 완료 시 1회</td></tr>
+          <tr><td>출석 체크</td><td>50 PT</td><td>매일 1회</td></tr>
+          <tr><td>예측 적중</td><td>배당 PT</td><td>예측 정답 시 자동 정산</td></tr>
+          <tr><td>이벤트 보상</td><td>변동</td><td>회사 정책에 따름 (비재산적)</td></tr>
+        </table>
+      </div>
+
+      <div class="article" style="margin-top:14px;">
+        <div class="article-title">③ 예측 적중 배당 계산</div>
+        <div class="notice">
+          적중 시 획득 포인트 = 베팅 포인트 × (전체 참여 포인트 ÷ 적중자 총 포인트) × 0.95
+          <br>※ 5%는 서비스 운영 수수료로 차감됩니다.
+          <br>※ 획득 포인트는 서비스 내 이용 수단일 뿐, 재산적 이익의 귀속으로 해석되지 않습니다.
+        </div>
+      </div>
+
+      <div class="article" style="margin-top:14px;">
+        <div class="article-title">④ 포인트 소멸</div>
+        <ol class="article-list">
+          <li>예측 참여 후 오답인 경우 해당 포인트는 즉시 소멸됩니다.</li>
+          <li>회원 탈퇴 시 보유 포인트는 전액 소멸되며 복구되지 않습니다.</li>
+          <li>부정 행위로 계정이 정지된 경우 보유 포인트는 소멸됩니다.</li>
+          <li>서비스 종료 시 포인트는 소멸되며 별도 보상을 제공하지 않습니다.</li>
+          <li>포인트 소멸로 인한 손해는 포인트가 재산적 가치를 갖지 않으므로 금전적 청구의 대상이 되지 않습니다.</li>
+        </ol>
+      </div>
+
+      <div class="article" style="margin-top:14px;">
+        <div class="article-title">⑤ 광고·수익 구조와 포인트의 분리</div>
+        <ol class="article-list">
+          <li>서비스 내 광고 수익은 전적으로 회사에 귀속되며, 이용자의 포인트 보유량 또는 예측 참여와 무관합니다.</li>
+          <li>포인트는 광고 수익 배분, 제휴사 할인, 외부 서비스 연동 수단으로 사용되지 않습니다.</li>
+          <li>이용자는 포인트 활동을 통해 어떠한 경제적 이익도 획득할 수 없습니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 제7조 -->
+  <div class="section" id="a7">
+    <div class="section-num">ARTICLE 07</div>
+    <div class="section-title">제7조 (예측 서비스)</div>
+    <div class="section-content">
+      <div class="article">
+        <ol class="article-list">
+          <li>예측 서비스는 KBO 프로야구 경기의 승패, 선취점, 선수 스탯 등을 대상으로 합니다.</li>
+          <li>동일 토픽에 대해 1인 1회만 예측 참여가 가능합니다.</li>
+          <li>예측 참여 후에는 취소 및 변경이 불가합니다.</li>
+          <li>경기 취소, 우천 순연, 콜드게임 등의 경우 회사 정책에 따라 포인트를 환불하거나 토픽을 무효 처리할 수 있습니다.</li>
+          <li>다음 토픽은 제공하지 않습니다.
+            <ul class="dot-list" style="margin-top:4px;">
+              <li>정치·선거·공직자 관련 예측</li>
+              <li>특정인의 사망·질병 관련 예측</li>
+              <li>법령에 위반되는 내용의 예측</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 제8조 -->
+  <div class="section" id="a8">
+    <div class="section-num">ARTICLE 08</div>
+    <div class="section-title">제8조 (이용자의 의무)</div>
+    <div class="section-content">
+      <div class="article">
+        <div class="article-title">이용자는 다음 행위를 하여서는 안 됩니다.</div>
+        <ol class="article-list">
+          <li>타인의 계정·소셜 계정을 도용하여 서비스를 이용하는 행위</li>
+          <li>복수의 계정을 생성하여 포인트를 중복 수령하는 행위</li>
+          <li>포인트를 타인에게 양도·판매·거래하는 행위</li>
+          <li>자동화 프로그램(봇)을 이용하여 예측하거나 포인트를 획득하는 행위</li>
+          <li>서비스의 정상적인 운영을 방해하는 행위</li>
+          <li>타인의 명예를 훼손하거나 불쾌감을 주는 게시물을 작성하는 행위</li>
+          <li>음란물·혐오 표현·차별적 내용을 게시하는 행위</li>
+          <li>기타 관련 법령 및 본 약관을 위반하는 행위</li>
+        </ol>
+      </div>
+      <div class="warning" style="margin-top:12px;">
+        <strong>⚠️ 위반 시 제재:</strong> 위 행위 적발 시 사전 통보 없이 계정 정지 또는 영구 탈퇴 처리될 수 있으며, 보유 포인트는 소멸됩니다. 법적 조치가 취해질 수 있습니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- 제9조 -->
+  <div class="section" id="a9">
+    <div class="section-num">ARTICLE 09</div>
+    <div class="section-title">제9조 (서비스 제공 및 중단)</div>
+    <div class="section-content">
+      <div class="article">
+        <ol class="article-list">
+          <li>서비스는 연중무휴 24시간 제공을 원칙으로 합니다.</li>
+          <li>다음의 경우 서비스를 일시 중단할 수 있습니다.
+            <ul class="dot-list" style="margin-top:4px;">
+              <li>시스템 점검·업그레이드</li>
+              <li>천재지변, 서버 장애 등 불가항력</li>
+              <li>기타 운영상 필요한 경우</li>
+            </ul>
+          </li>
+          <li>서비스 중단 시 사전에 공지하며, 긴급한 경우 사후 공지할 수 있습니다.</li>
+          <li>KBO 비시즌 기간에는 다른 스포츠 종목(KBL 농구, V리그 배구 등)으로 서비스가 전환될 수 있습니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 제10조 -->
+  <div class="section" id="a10">
+    <div class="section-num">ARTICLE 10</div>
+    <div class="section-title">제10조 (개인정보 보호)</div>
+    <div class="section-content">
+      <div class="article">
+        <ol class="article-list">
+          <li>회사는 개인정보보호법(PIPA) 등 관련 법령을 준수하여 이용자의 개인정보를 보호합니다.</li>
+          <li>회사는 서비스 제공 목적 이외의 용도로 이용자의 개인정보를 사용하지 않습니다.</li>
+          <li>자세한 내용은 별도의 개인정보처리방침을 참고하시기 바랍니다.</li>
+          <li>회사는 광고주에게 이용자의 개인정보를 판매하지 않습니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 제11조 -->
+  <div class="section" id="a11">
+    <div class="section-num">ARTICLE 11</div>
+    <div class="section-title">제11조 (책임의 한계)</div>
+    <div class="section-content">
+      <div class="article">
+        <ol class="article-list">
+          <li>회사는 천재지변, 전쟁, 테러, 해킹 등 불가항력으로 인한 서비스 중단에 대해 책임을 지지 않습니다.</li>
+          <li>회사는 이용자의 귀책 사유로 인한 서비스 이용 장애에 대해 책임을 지지 않습니다.</li>
+          <li>회사는 이용자가 서비스를 통해 얻은 정보의 신뢰성·정확성에 대해 보증하지 않습니다.</li>
+          <li>포인트는 재산적 가치가 없으므로 포인트 소멸에 대한 금전적 보상을 제공하지 않습니다.</li>
+          <li>KBO 공식 기록과 서비스 내 데이터 간 차이가 발생하는 경우, KBO 공식 기록을 우선합니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 제12조 -->
+  <div class="section" id="a12">
+    <div class="section-num">ARTICLE 12</div>
+    <div class="section-title">제12조 (분쟁 해결)</div>
+    <div class="section-content">
+      <div class="article">
+        <ol class="article-list">
+          <li>서비스 이용과 관련하여 분쟁이 발생한 경우 회사와 이용자는 성실히 협의하여 해결합니다.</li>
+          <li>협의로 해결되지 않는 경우 관련 법령에 따른 절차에 따릅니다.</li>
+          <li>본 약관에 관한 소송은 대한민국 법원을 관할 법원으로 합니다.</li>
+          <li>본 약관은 대한민국 법률에 따라 해석됩니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 제13조 -->
+  <div class="section" id="a13">
+    <div class="section-num">ARTICLE 13</div>
+    <div class="section-title">제13조 (기타)</div>
+    <div class="section-content">
+      <div class="article">
+        <ol class="article-list">
+          <li>본 약관에서 정하지 않은 사항은 관련 법령 및 회사의 개별 정책에 따릅니다.</li>
+          <li>본 약관의 일부가 무효인 경우에도 나머지 부분의 효력에는 영향을 미치지 않습니다.</li>
+          <li>회사의 서비스 문의는 서비스 내 고객센터 또는 이메일을 통해 접수할 수 있습니다.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 부칙 -->
+  <div class="section">
+    <div class="section-num">ADDENDUM</div>
+    <div class="section-title">부칙</div>
+    <div class="section-content">
+      본 약관은 2026년 7월 31일부터 시행합니다.
+      <br><br>
+      사업자: 가우디아 (GAUDIA)<br>
+      사업자등록번호: 387-09-03509<br>
+      업태: 정보통신업 / 종목: 자료처리업<br>
+      서비스 URL: gaudia-web.vercel.app
+    </div>
+  </div>
+
+  <!-- 법무 검토 안내 -->
+  <div class="highlight">
+    <strong>✅ 로톡 변호사(고용준) 답변 반영 완료 (2026.05.21):</strong><br>
+    · 제6조 ① — "비재산적 서비스 이용 수단" 명시 완료<br>
+    · 제6조 ① — NFT·외부 플랫폼 이용권·할인권 전환 불가 명시 완료<br>
+    · 제6조 ① — 경품은 추첨 방식만 허용 명시 완료<br>
+    · 제6조 ⑤ — 광고 수익과 포인트 분리 조항 신설 완료<br>
+    · 제6조 ③ — 배당 포인트의 비재산적 성격 명시 완료
+  </div>
+  <div class="warning">
+    <strong>⚠️ 추가 법무 검토 필요 항목:</strong><br>
+    · 제5조 회원 자격 — 만 19세 본인 확인 방법 구체화 필요<br>
+    · 제7조 예측 서비스 — 경기 취소 시 포인트 처리 정책 구체화 필요<br>
+    · 제10조 개인정보 — 해외 서버(Supabase) 국외 이전 동의 조항 추가 필요<br>
+    · 전체 — K-Startup 로펌 변호사 최종 검토 후 시행 권고
+  </div>
+
+  <!-- 푸터 -->
+  <div class="footer">
+    <div class="footer-text">
+      GAUDIA (가우디아) · 사업자등록번호: 387-09-03509<br>
+      정보통신업 · 자료처리업 · 업종코드: 723000<br>
+      © 2026 GAUDIA. All rights reserved.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
