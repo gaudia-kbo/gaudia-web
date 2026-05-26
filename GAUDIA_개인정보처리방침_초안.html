@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAUDIA 개인정보처리방침</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#1A1A2E; --gold:#B8860B; --gold_bg:#FDF8EC; --gold_bd:#DFC06A;
+  --cream:#FAF7F2; --cream2:#F3EFE8; --text:#1C1712; --text2:#5A5248;
+  --text3:#8A8078; --border:#DDD8CF; --green:#2A7A52; --green_bg:#EDF7F2;
+  --red:#B83232; --red_bg:#FDF0EF; --blue:#2A5FA8; --blue_bg:#EEF4FC;
+  --orange:#C25E00; --orange_bg:#FFF3E0;
+}
+body{background:var(--cream);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:14px;line-height:1.8;}
+.wrap{max-width:800px;margin:0 auto;padding:24px 16px 60px;}
+
+.header{background:var(--navy);padding:32px 24px;border-radius:16px;margin-bottom:24px;text-align:center;}
+.header-logo{font-size:28px;font-weight:700;color:var(--gold);letter-spacing:4px;margin-bottom:8px;}
+.header-title{font-size:18px;color:#E8D9AA;margin-bottom:4px;}
+.header-date{font-size:12px;color:#6A6460;}
+
+.review-badge{display:inline-block;background:var(--red_bg);border:1px solid var(--red);border-radius:20px;padding:3px 12px;font-size:10px;font-weight:700;color:var(--red);margin-bottom:16px;}
+
+.summary{background:var(--gold_bg);border:1.5px solid var(--gold_bd);border-radius:12px;padding:16px 20px;margin-bottom:24px;}
+.summary-title{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px;}
+.summary-item{display:flex;align-items:flex-start;gap:8px;padding:4px 0;font-size:12px;color:var(--text2);}
+.summary-icon{font-size:14px;flex-shrink:0;}
+
+.toc{background:var(--cream2);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:28px;}
+.toc-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;}
+.toc-list{list-style:none;}
+.toc-list li{padding:3px 0;}
+.toc-list a{font-size:12px;color:var(--gold);text-decoration:none;}
+
+.section{margin-bottom:32px;}
+.section-num{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:1px;margin-bottom:4px;}
+.section-title{font-size:17px;font-weight:700;color:var(--navy);border-bottom:2px solid var(--gold_bd);padding-bottom:8px;margin-bottom:14px;}
+
+.article{margin-bottom:16px;}
+.article-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px;}
+ol.article-list{padding-left:18px;}
+ol.article-list li{font-size:13px;color:var(--text2);line-height:2;margin-bottom:2px;}
+ul.dot-list{padding-left:18px;list-style:disc;}
+ul.dot-list li{font-size:13px;color:var(--text2);line-height:2;}
+
+.info-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px;}
+.info-table th{background:var(--navy);color:white;padding:10px 12px;text-align:left;font-weight:700;}
+.info-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;}
+.info-table tr:nth-child(even) td{background:var(--cream2);}
+.info-table td:first-child{font-weight:700;color:var(--text);white-space:nowrap;}
+
+.highlight{background:var(--green_bg);border-left:4px solid var(--green);border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:12px;color:var(--text2);}
+.highlight strong{color:var(--green);}
+.warning{background:var(--red_bg);border-left:4px solid var(--red);border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:12px;color:var(--text2);}
+.warning strong{color:var(--red);}
+.notice{background:var(--blue_bg);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:12px;color:var(--text2);}
+.notice strong{color:var(--blue);}
+
+.footer{background:var(--navy);border-radius:12px;padding:20px;text-align:center;margin-top:32px;}
+.footer-text{font-size:11px;color:#6A6460;line-height:2;}
+
+.contact-box{background:var(--cream2);border:1.5px solid var(--border);border-radius:12px;padding:16px 20px;margin-top:12px;}
+.contact-row{display:flex;gap:12px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.contact-row:last-child{border-bottom:none;}
+.contact-label{font-weight:700;color:var(--text);min-width:80px;flex-shrink:0;}
+.contact-value{color:var(--text2);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 헤더 -->
+  <div class="header">
+    <div class="header-logo">GAUDIA</div>
+    <div class="header-title">개인정보처리방침</div>
+    <div class="header-date">시행일: 2026년 7월 31일 · 버전 1.0 (법무 검토 초안)</div>
+  </div>
+
+  <div style="text-align:center;margin-bottom:16px;">
+    <span class="review-badge">⚠️ 법무 검토 진행 중 — 정식 버전 아님</span>
+  </div>
+
+  <!-- 핵심 요약 -->
+  <div class="summary">
+    <div class="summary-title">📋 개인정보처리방침 핵심 요약</div>
+    <div class="summary-item"><span class="summary-icon">✅</span>카카오·구글 소셜 로그인을 통해 최소한의 정보만 수집합니다.</div>
+    <div class="summary-item"><span class="summary-icon">✅</span>수집한 개인정보를 광고주에게 판매하지 않습니다.</div>
+    <div class="summary-item"><span class="summary-icon">✅</span>서비스 운영 목적 외에 개인정보를 사용하지 않습니다.</div>
+    <div class="summary-item"><span class="summary-icon">✅</span>이용자는 언제든지 개인정보 열람·수정·삭제·탈퇴를 요청할 수 있습니다.</div>
+    <div class="summary-item"><span class="summary-icon">⚠️</span>서버는 미국 Supabase 클라우드를 사용합니다 (국외 이전 동의 포함).</div>
+  </div>
+
+  <!-- 목차 -->
+  <div class="toc">
+    <div class="toc-title">목차</div>
+    <ul class="toc-list">
+      <li><a href="#p1">제1조 개인정보의 처리 목적</a></li>
+      <li><a href="#p2">제2조 수집하는 개인정보 항목</a></li>
+      <li><a href="#p3">제3조 개인정보의 처리 및 보유 기간</a></li>
+      <li><a href="#p4">제4조 개인정보의 제3자 제공</a></li>
+      <li><a href="#p5">제5조 개인정보 처리 위탁</a></li>
+      <li><a href="#p6">제6조 개인정보의 국외 이전</a></li>
+      <li><a href="#p7">제7조 이용자의 권리와 행사 방법</a></li>
+      <li><a href="#p8">제8조 개인정보의 파기</a></li>
+      <li><a href="#p9">제9조 개인정보 자동 수집 장치</a></li>
+      <li><a href="#p10">제10조 개인정보 보호책임자</a></li>
+      <li><a href="#p11">제11조 개인정보처리방침 변경</a></li>
+    </ul>
+  </div>
+
+  <!-- 제1조 -->
+  <div class="section" id="p1">
+    <div class="section-num">ARTICLE 01</div>
+    <div class="section-title">제1조 (개인정보의 처리 목적)</div>
+    <div class="article">
+      <div style="font-size:13px;color:var(--text2);line-height:2;">
+        GAUDIA(가우디아, 이하 "회사")는 다음 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우 개인정보보호법 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행합니다.
+      </div>
+      <ol class="article-list" style="margin-top:10px;">
+        <li><strong>회원 가입 및 관리:</strong> 소셜 로그인 인증, 회원 식별, 서비스 이용 자격 확인</li>
+        <li><strong>서비스 제공:</strong> 예측 토픽 참여, 포인트 지급·차감, 리더보드 운영, 커뮤니티 서비스</li>
+        <li><strong>고객 지원:</strong> 문의사항 처리, 불만 접수 및 처리, 공지사항 전달</li>
+        <li><strong>서비스 개선:</strong> 서비스 이용 통계 분석, 신규 서비스 개발</li>
+        <li><strong>부정 이용 방지:</strong> 중복 가입 확인, 불법 이용 탐지 및 차단</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 제2조 -->
+  <div class="section" id="p2">
+    <div class="section-num">ARTICLE 02</div>
+    <div class="section-title">제2조 (수집하는 개인정보 항목)</div>
+
+    <div class="article">
+      <div class="article-title">① 소셜 로그인을 통한 수집 항목</div>
+      <table class="info-table">
+        <tr><th>수집 방법</th><th>수집 항목</th><th>필수 여부</th></tr>
+        <tr>
+          <td>카카오 로그인</td>
+          <td>카카오 고유 ID, 닉네임, 프로필 이미지, 이메일(선택 시)</td>
+          <td>필수</td>
+        </tr>
+        <tr>
+          <td>구글 로그인</td>
+          <td>구글 고유 ID, 이름, 이메일, 프로필 이미지</td>
+          <td>필수</td>
+        </tr>
+        <tr>
+          <td>애플 로그인</td>
+          <td>애플 고유 ID, 이메일(선택 시)</td>
+          <td>필수</td>
+        </tr>
+      </table>
+      <div class="notice">
+        <strong>📌 안내:</strong> 회사는 소셜 로그인 제공자(카카오·구글·애플)로부터 위 항목만 수신하며, 비밀번호는 수집하지 않습니다.
+      </div>
+    </div>
+
+    <div class="article" style="margin-top:16px;">
+      <div class="article-title">② 서비스 이용 과정에서 자동 생성·수집되는 항목</div>
+      <ul class="dot-list">
+        <li>서비스 이용 기록 (예측 참여 내역, 포인트 거래 내역)</li>
+        <li>접속 로그 (IP 주소, 접속 일시, 브라우저 정보)</li>
+        <li>기기 정보 (기기 유형, 운영체제)</li>
+        <li>쿠키 및 세션 토큰</li>
+      </ul>
+    </div>
+
+    <div class="article" style="margin-top:16px;">
+      <div class="article-title">③ 회원 가입 시 직접 입력 항목</div>
+      <ul class="dot-list">
+        <li>닉네임 (서비스 내 표시 이름)</li>
+        <li>응원 팀 (선택)</li>
+      </ul>
+    </div>
+
+    <div class="highlight">
+      <strong>✅ 최소 수집 원칙:</strong> 회사는 서비스 제공에 필요한 최소한의 개인정보만 수집합니다. 주민등록번호, 금융정보 등 민감정보는 수집하지 않습니다.
+    </div>
+  </div>
+
+  <!-- 제3조 -->
+  <div class="section" id="p3">
+    <div class="section-num">ARTICLE 03</div>
+    <div class="section-title">제3조 (개인정보의 처리 및 보유 기간)</div>
+    <table class="info-table">
+      <tr><th>처리 목적</th><th>보유 기간</th><th>근거</th></tr>
+      <tr>
+        <td>회원 정보</td>
+        <td>회원 탈퇴 시까지</td>
+        <td>서비스 이용 계약</td>
+      </tr>
+      <tr>
+        <td>포인트 거래 내역</td>
+        <td>탈퇴 후 1년</td>
+        <td>분쟁 해결 목적</td>
+      </tr>
+      <tr>
+        <td>예측 참여 내역</td>
+        <td>탈퇴 후 1년</td>
+        <td>분쟁 해결 목적</td>
+      </tr>
+      <tr>
+        <td>접속 로그</td>
+        <td>3개월</td>
+        <td>통신비밀보호법</td>
+      </tr>
+      <tr>
+        <td>부정 이용 기록</td>
+< truncated lines 213-226 >
+      회사는 이용자의 개인정보를 원칙적으로 외부에 제공하지 않습니다. 다만 아래의 경우에는 예외로 합니다.
+    </div>
+    <ol class="article-list">
+      <li>이용자가 사전에 동의한 경우</li>
+      <li>법령의 규정에 의거하거나, 수사 목적으로 법령에 정해진 절차와 방법에 따라 수사기관의 요구가 있는 경우</li>
+    </ol>
+    <div class="highlight">
+      <strong>✅ 중요:</strong> 회사는 이용자의 개인정보를 광고주, 데이터 브로커 등 제3자에게 판매하지 않습니다.
+    </div>
+  </div>
+
+  <!-- 제5조 -->
+  <div class="section" id="p5">
+    <div class="section-num">ARTICLE 05</div>
+    <div class="section-title">제5조 (개인정보 처리 위탁)</div>
+    <div style="font-size:13px;color:var(--text2);line-height:2;margin-bottom:12px;">
+      회사는 서비스 제공을 위해 아래와 같이 개인정보 처리를 위탁합니다.
+    </div>
+    <table class="info-table">
+      <tr><th>수탁업체</th><th>위탁 업무</th><th>보유·이용 기간</th></tr>
+      <tr>
+        <td>Supabase Inc.</td>
+        <td>데이터베이스 운영·저장, 인증 서비스</td>
+        <td>서비스 이용 기간</td>
+      </tr>
+      <tr>
+        <td>Vercel Inc.</td>
+        <td>웹 서비스 호스팅</td>
+        <td>서비스 이용 기간</td>
+      </tr>
+      <tr>
+        <td>Kakao Corp.</td>
+        <td>카카오 소셜 로그인 인증</td>
+        <td>로그인 인증 시</td>
+      </tr>
+      <tr>
+        <td>Google LLC</td>
+        <td>구글 소셜 로그인 인증</td>
+        <td>로그인 인증 시</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 제6조 (중요) -->
+  <div class="section" id="p6">
+    <div class="section-num">ARTICLE 06</div>
+    <div class="section-title">제6조 (개인정보의 국외 이전)</div>
+    <div style="font-size:13px;color:var(--text2);line-height:2;margin-bottom:12px;">
+      회사는 서비스 운영을 위해 아래와 같이 개인정보를 국외로 이전합니다. 이용자는 서비스 가입 시 본 방침에 동의함으로써 아래 국외 이전에 동의한 것으로 간주합니다.
+    </div>
+    <table class="info-table">
+      <tr><th>이전 업체</th><th>국가</th><th>이전 항목</th><th>이전 목적</th><th>보유 기간</th></tr>
+      <tr>
+        <td>Supabase Inc.</td>
+        <td>미국</td>
+        <td>회원 정보 전체, 서비스 이용 기록</td>
+        <td>데이터베이스 운영</td>
+        <td>서비스 이용 기간</td>
+      </tr>
+      <tr>
+        <td>Vercel Inc.</td>
+        <td>미국</td>
+        <td>접속 로그, 기기 정보</td>
+        <td>웹 호스팅</td>
+        <td>3개월</td>
+      </tr>
+      <tr>
+        <td>Google LLC</td>
+        <td>미국</td>
+        <td>구글 계정 인증 정보</td>
+        <td>소셜 로그인</td>
+        <td>로그인 인증 시</td>
+      </tr>
+    </table>
+    <div class="warning">
+      <strong>⚠️ 국외 이전 동의:</strong> 위 업체들은 미국에 서버를 운영하고 있습니다. 이용자는 서비스 가입 시 위 국외 이전에 동의하게 됩니다. 동의하지 않으실 경우 서비스 이용이 제한될 수 있습니다.
+    </div>
+  </div>
+
+  <!-- 제7조 -->
+  <div class="section" id="p7">
+    <div class="section-num">ARTICLE 07</div>
+    <div class="section-title">제7조 (이용자의 권리와 행사 방법)</div>
+    <div class="article">
+      <div style="font-size:13px;color:var(--text2);line-height:2;margin-bottom:10px;">
+        이용자는 언제든지 아래의 권리를 행사할 수 있습니다.
+      </div>
+      <ol class="article-list">
+        <li><strong>개인정보 열람 요청:</strong> 회사가 보유한 본인의 개인정보를 열람할 수 있습니다.</li>
+        <li><strong>개인정보 수정 요청:</strong> 개인정보가 잘못된 경우 수정을 요청할 수 있습니다.</li>
+        <li><strong>개인정보 삭제 요청:</strong> 개인정보의 삭제를 요청할 수 있습니다. (단, 법령에 따라 보존 의무가 있는 경우 제외)</li>
+        <li><strong>처리 정지 요청:</strong> 개인정보 처리 정지를 요청할 수 있습니다.</li>
+        <li><strong>회원 탈퇴:</strong> 서비스 내 탈퇴 기능 또는 이메일로 요청하시면 즉시 처리합니다.</li>
+      </ol>
+    </div>
+    <div class="notice">
+      <strong>📌 행사 방법:</strong> 서비스 내 설정 메뉴 또는 이메일(gaudia.kbo@gmail.com)로 요청하시면 10일 이내에 처리합니다.
+    </div>
+  </div>
+
+  <!-- 제8조 -->
+  <div class="section" id="p8">
+    <div class="section-num">ARTICLE 08</div>
+    <div class="section-title">제8조 (개인정보의 파기)</div>
+    <ol class="article-list">
+      <li>회사는 개인정보 보유 기간이 경과하거나 처리 목적이 달성된 경우 해당 개인정보를 지체 없이 파기합니다.</li>
+      <li>전자적 파일 형태의 정보는 복구·재생이 불가능한 방법으로 영구 삭제합니다.</li>
+      <li>회원 탈퇴 시 개인정보는 즉시 파기되며, 법령에 따라 보존 의무가 있는 정보는 해당 기간 후 파기합니다.</li>
+    </ol>
+  </div>
+
+  <!-- 제9조 -->
+  <div class="section" id="p9">
+    <div class="section-num">ARTICLE 09</div>
+    <div class="section-title">제9조 (개인정보 자동 수집 장치)</div>
+    <div class="article">
+      <div class="article-title">① 쿠키(Cookie) 사용</div>
+      <ol class="article-list">
+        <li>회사는 서비스 제공을 위해 쿠키를 사용합니다.</li>
+        <li>쿠키는 로그인 상태 유지, 서비스 설정 저장 등에 사용됩니다.</li>
+        <li>이용자는 브라우저 설정에서 쿠키 저장을 거부할 수 있으나, 일부 서비스 이용이 제한될 수 있습니다.</li>
+      </ol>
+    </div>
+    <div class="article" style="margin-top:12px;">
+      <div class="article-title">② 세션(Session) 토큰</div>
+      <ol class="article-list">
+        <li>소셜 로그인 후 세션 토큰을 발급하여 로그인 상태를 유지합니다.</li>
+        <li>세션 토큰은 브라우저 종료 또는 로그아웃 시 삭제됩니다.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 제10조 -->
+  <div class="section" id="p10">
+    <div class="section-num">ARTICLE 10</div>
+    <div class="section-title">제10조 (개인정보 보호책임자)</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.8;">
+      회사는 개인정보 처리에 관한 업무를 총괄하고 개인정보 처리와 관련한 이용자의 불만 처리 및 피해 구제를 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.
+    </div>
+    <div class="contact-box">
+      <div class="contact-row">
+        <span class="contact-label">책임자</span>
+        <span class="contact-value">이원재 (대표)</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">이메일</span>
+        <span class="contact-value">gaudia.kbo@gmail.com</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">사업자번호</span>
+        <span class="contact-value">387-09-03509</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">처리 기간</span>
+        <span class="contact-value">요청 접수 후 10일 이내</span>
+      </div>
+    </div>
+    <div class="notice" style="margin-top:12px;">
+      <strong>📌 권익 침해 구제:</strong> 개인정보 침해에 대한 신고·상담은 아래 기관에도 문의하실 수 있습니다.<br>
+      · 개인정보보호위원회: privacy.go.kr / 국번없이 182<br>
+      · 개인정보 분쟁조정위원회: kopico.go.kr / 1833-6972<br>
+      · 한국인터넷진흥원: privacy.kisa.or.kr / 국번없이 118
+    </div>
+  </div>
+
+  <!-- 제11조 -->
+  <div class="section" id="p11">
+    <div class="section-num">ARTICLE 11</div>
+    <div class="section-title">제11조 (개인정보처리방침 변경)</div>
+    <ol class="article-list">
+      <li>본 개인정보처리방침은 2026년 7월 31일부터 적용됩니다.</li>
+      <li>개인정보처리방침이 변경되는 경우 시행일 7일 전부터 서비스 내 공지사항을 통해 고지합니다.</li>
+      <li>중요한 변경사항이 있는 경우 30일 전부터 고지합니다.</li>
+    </ol>
+  </div>
+
+  <!-- 법무 검토 필요 항목 -->
+  <div class="warning">
+    <strong>⚠️ 법무 검토 필요 항목 (김현정 변호사 자문 예정):</strong><br>
+    · 제6조 국외 이전 — 동의 방식이 가입 시 묵시적 동의로 충분한지 확인 필요<br>
+    · 제2조 수집 항목 — 카카오 이메일 미제공 시 서비스 이용 가능 여부 정책 확정 필요<br>
+    · 제3조 보유 기간 — 포인트 거래 내역 보존 기간 적정성 확인 필요<br>
+    · 제10조 책임자 — 1인 사업자의 개인정보 보호책임자 지정 요건 확인 필요<br>
+    · 전체 — PIPA(개인정보보호법) 준수 여부 최종 확인 필요
+  </div>
+
+  <!-- 부칙 -->
+  <div class="section">
+    <div class="section-num">ADDENDUM</div>
+    <div class="section-title">부칙</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+      본 개인정보처리방침은 2026년 7월 31일부터 시행합니다.<br><br>
+      사업자: 가우디아 (GAUDIA)<br>
+      사업자등록번호: 387-09-03509<br>
+      업태: 정보통신업 / 종목: 자료처리업<br>
+      이메일: gaudia.kbo@gmail.com
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <div class="footer">
+    <div class="footer-text">
+      GAUDIA (가우디아) · 사업자등록번호: 387-09-03509<br>
+      정보통신업 · 자료처리업 · 업종코드: 723000<br>
+      © 2026 GAUDIA. All rights reserved.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
