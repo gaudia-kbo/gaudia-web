@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg:       #FAF7F2;
+  --gold:     #B8860B;
+  --text:     #1C1712;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 스크롤바 */
+::-webkit-scrollbar       { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #F3EFE8; }
+::-webkit-scrollbar-thumb { background: #DDD8CF; border-radius: 2px; }
+
+/* GAUDIA 로고 폰트 */
+.font-logo {
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: 4px;
+}
