@@ -14,7 +14,7 @@ function createSupabaseServerClient(
         getAll() {
           return cookieStore.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options?: any }[]) {
           cookiesToSet.forEach(({ name, value, options }) => {
             if (response) {
               response.cookies.set(name, value, options)
