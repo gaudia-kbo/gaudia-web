@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import Navbar    from '@/components/layout/Navbar'
 import BottomNav from '@/components/layout/BottomNav'
+import PredictButtons from '@/components/predictions/PredictButtons'
 import type { User, TopicOdds } from '@/types/database'
 
 export default async function HomePage() {
@@ -124,36 +124,7 @@ function TopicCard({
       </div>
 
       {/* 예측 버튼 */}
-      {userId ? (
-        <div className="flex border-t border-cream-2">
-          <a
-            href={`/topics/${topic.id}?choice=yes`}
-            className="flex-1 py-3 text-xs font-bold text-gaudia-green
-                       bg-green-50 hover:bg-green-100
-                       text-center transition-colors border-r border-cream-2"
-          >
-            ✔ O 예측
-          </a>
-          <a
-            href={`/topics/${topic.id}?choice=no`}
-            className="flex-1 py-3 text-xs font-bold text-gaudia-red
-                       bg-red-50 hover:bg-red-100
-                       text-center transition-colors"
-          >
-            ✔ X 예측
-          </a>
-        </div>
-      ) : (
-        <Link
-          href="/login"
-          className="block w-full py-3 text-xs font-bold
-                     text-gold-DEFAULT bg-gold-bg
-                     text-center border-t border-cream-2
-                     hover:bg-gold-light transition-colors"
-        >
-          로그인 후 예측 참여 →
-        </Link>
-      )}
+      <PredictButtons topicId={topic.id} userId={userId} />
     </div>
   )
 }
