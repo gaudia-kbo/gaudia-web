@@ -27,7 +27,7 @@ export default function PredictButtons({
       const res = await fetch('/api/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topicId, choice }),
+        body: JSON.stringify({ topic_id: topicId, choice }),
       })
 
       const data = await res.json()
