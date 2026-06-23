@@ -4,9 +4,9 @@ import { usePathname, useRouter } from 'next/navigation'
 
 const TABS = [
   { path: '/',            icon: '⚾', label: '홈'      },
-  { path: '/leaderboard', icon: '🏆', label: '순위'    },
-  { path: '/community',   icon: '💬', label: '커뮤니티' },
-  { path: '/my',          icon: '👤', label: '내 정보'  },
+  { path: '/ranking',   icon: '🏆', label: '순위' },
+  { path: '/community', icon: '💬', label: '커뮤니티' },
+  { path: '/profile',   icon: '👤', label: '내 정보' },
 ]
 
 export default function BottomNav() {
