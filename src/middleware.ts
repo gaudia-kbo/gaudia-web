@@ -1,8 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-// 로그인 없이 접근 가능한 경로
-const PUBLIC_PATHS = ['/', '/login', '/auth/callback', '/api']
+const PUBLIC_PATHS = ['/', '/login', '/auth/callback', '/api', '/onboarding', '/blocked', '/terms', '/privacy']
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
@@ -28,13 +27,11 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // 세션 갱신 (중요: 항상 getUser() 호출)
   const { data: { user } } = await supabase.auth.getUser()
 
   const path = request.nextUrl.pathname
-  const isPublic = PUBLIC_PATHS.some(p => path === p || path.startsWith('/auth') || path.startsWith('/api'))
+  const isPublic = PUBLIC_PATHS.some(p => path === p || path.startsWith(p + '/') || path.startsWith('/auth') || path.startsWith('/api'))
 
-  // 로그인 안 된 상태에서 보호 경로 접근 → 로그인 페이지로
   if (!user && !isPublic) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
@@ -46,6 +43,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

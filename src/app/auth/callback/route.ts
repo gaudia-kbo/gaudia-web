@@ -1,9 +1,6 @@
 import { createRouteHandlerClient } from '@/lib/supabase/server'
-import { grantSignupBonus } from '@/lib/points'
 import { NextResponse } from 'next/server'
 
-// 카카오 로그인 후 리다이렉트되는 콜백 URL
-// Supabase가 code를 session으로 교환하고 신규 유저면 500PT 지급
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
@@ -16,10 +13,7 @@ export async function GET(request: Request) {
   const redirectResponse = NextResponse.redirect(`${origin}${next}`)
   const supabase = await createRouteHandlerClient(redirectResponse)
 
-  // code → session 교환
   const { data, error } = await supabase.auth.exchangeCodeForSession(code)
-
-  // supabase-js 2.91+ 에서 SIGNED_IN 이벤트가 지연되어 쿠키가 늦게 기록될 수 있음
   await new Promise((resolve) => setTimeout(resolve, 0))
 
   if (error || !data.user) {
@@ -29,15 +23,14 @@ export async function GET(request: Request) {
 
   const user = data.user
 
-  // users 테이블에 해당 유저가 있는지 확인
   const { data: existingUser } = await supabase
     .from('users')
-    .select('id')
+    .select('id, is_adult_verified')
     .eq('id', user.id)
     .single()
 
-  // 신규 유저면 프로필 생성 + 500PT 지급
   if (!existingUser) {
+    // 신규 유저: 프로필 생성 후 onboarding으로
     const kakaoNickname =
       user.user_metadata?.full_name ||
       user.user_metadata?.name ||
@@ -56,13 +49,15 @@ export async function GET(request: Request) {
 
     if (insertError) {
       console.error('유저 생성 오류:', insertError)
-    } else {
-      try {
-        await grantSignupBonus(user.id, supabase)
-      } catch (e) {
-        console.error('가입 포인트 지급 오류:', e)
-      }
+      return NextResponse.redirect(`${origin}/login?error=user_create_failed`)
     }
+
+    return NextResponse.redirect(`${origin}/onboarding`)
+  }
+
+  if (!existingUser.is_adult_verified) {
+    // 기존 유저인데 연령 미확인 상태
+    return NextResponse.redirect(`${origin}/onboarding`)
   }
 
   return redirectResponse
