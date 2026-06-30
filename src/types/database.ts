@@ -1,7 +1,6 @@
 // ============================================================
-// GAUDIA Supabase 타입 정의
-// DB 스키마와 1:1 대응
-// ============================================================
+// GAUDIA Supabase ????뺤쓽
+// DB ?ㅽ궎留덉? 1:1 ???// ============================================================
 
 export type PointType =
   | 'signup_bonus'
@@ -27,7 +26,7 @@ export type TopicCategory =
   | 'player_stat_volleyball' | 'player_stat_soccer'
   | 'team_stat_soccer' | 'custom'
 
-// ── 유저
+// ?? ?좎?
 export interface User {
   id: string
   nickname: string
@@ -48,7 +47,6 @@ export interface User {
   updated_at: string
 }
 
-// ── 스포츠
 export interface Sport {
   id: string
   code: string
@@ -62,7 +60,7 @@ export interface Sport {
   sort_order: number
 }
 
-// ── 경기
+// ?? 寃쎄린
 export interface Game {
   id: string
   sport_id: string
@@ -84,7 +82,7 @@ export interface Game {
   updated_at: string
 }
 
-// ── 예측 토픽
+// ?? ?덉륫 ?좏뵿
 export interface Topic {
   id: string
   sport_id: string
@@ -107,12 +105,11 @@ export interface Topic {
   is_reviewed: boolean
   created_at: string
   updated_at: string
-  // 조인 데이터
-  sport?: Sport
+  // 議곗씤 ?곗씠??  sport?: Sport
   game?: Game
 }
 
-// ── 예측 참여
+// ?? ?덉륫 李몄뿬
 export interface Prediction {
   id: string
   user_id: string
@@ -124,11 +121,10 @@ export interface Prediction {
   is_settled: boolean
   settled_at: string | null
   created_at: string
-  // 조인 데이터
-  topic?: Topic
+  // 議곗씤 ?곗씠??  topic?: Topic
 }
 
-// ── 포인트 거래
+// ?? ?ъ씤??嫄곕옒
 export interface PointTransaction {
   id: string
   user_id: string
@@ -140,7 +136,7 @@ export interface PointTransaction {
   created_at: string
 }
 
-// ── 게시글
+// ?? 寃뚯떆湲
 export interface Post {
   id: string
   user_id: string
@@ -154,17 +150,16 @@ export interface Post {
   is_hidden: boolean
   created_at: string
   updated_at: string
-  // 조인 데이터
-  user?: Pick<User, 'id' | 'nickname' | 'avatar_url'>
+  // 議곗씤 ?곗씠??  user?: Pick<User, 'id' | 'nickname' | 'avatar_url'>
 }
 
-// ── 토픽 배당률 뷰
 export interface TopicOdds {
   id: string
   sport_id: string
   title_ko: string
   status: TopicStatus
   total_yes_pts: number
+  closes_at: string | null
   total_no_pts: number
   participant_count: number
   yes_pct: number
